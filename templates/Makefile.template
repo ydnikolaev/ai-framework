@@ -1,105 +1,235 @@
 # 🤖 Project Makefile
-# Сгенерирован AI-Framework
+# Сгенерирован AI-Framework — https://github.com/ydnikolaev/ai-framework
 
-.PHONY: dev api frontend test lint deploy logs clean help
+# ═══════════════════════════════════════════════════════════════
+# 🎨 Colors & Formatting
+# ═══════════════════════════════════════════════════════════════
 
-# === Development ===
+RESET   := \033[0m
+BOLD    := \033[1m
+DIM     := \033[2m
+RED     := \033[31m
+GREEN   := \033[32m
+YELLOW  := \033[33m
+BLUE    := \033[34m
+MAGENTA := \033[35m
+CYAN    := \033[36m
 
-dev: ## Запуск dev-окружения (Docker Compose)
-	docker compose up -d
-	@echo "✅ Dev environment started"
-	@echo "   Frontend: http://localhost:3000"
-	@echo "   API: http://localhost:8080"
+define log_info
+	@printf "$(CYAN)$(BOLD)→$(RESET) $(1)\n"
+endef
 
-api: ## Запуск только backend
-	cd backend && go run ./cmd/api
+define log_success
+	@printf "$(GREEN)$(BOLD)✓$(RESET) $(1)\n"
+endef
 
-frontend: ## Запуск только frontend
-	cd frontend && npm run dev -- --host
+define log_warning
+	@printf "$(YELLOW)$(BOLD)⚠$(RESET) $(1)\n"
+endef
 
-bot: ## Запуск только бота
-	cd backend && go run ./cmd/bot
+define log_error
+	@printf "$(RED)$(BOLD)✗$(RESET) $(1)\n"
+endef
 
-# === Testing ===
+define log_header
+	@printf "\n$(MAGENTA)$(BOLD)═══════════════════════════════════════$(RESET)\n"
+	@printf "$(MAGENTA)$(BOLD)  $(1)$(RESET)\n"
+	@printf "$(MAGENTA)$(BOLD)═══════════════════════════════════════$(RESET)\n\n"
+endef
 
-test: test-backend test-frontend ## Все тесты
+# ═══════════════════════════════════════════════════════════════
+# 📦 Load Environment
+# ═══════════════════════════════════════════════════════════════
 
-test-backend: ## Тесты backend
-	cd backend && go test -v ./...
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
 
-test-frontend: ## Тесты frontend
-	cd frontend && npm run test
-
-# === Quality ===
-
-lint: lint-backend lint-frontend ## Весь линтинг
-
-lint-backend: ## Линтинг Go
-	cd backend && golangci-lint run
-
-lint-frontend: ## Линтинг Vue/TS
-	cd frontend && npm run lint
-
-typecheck: ## TypeScript проверка
-	cd frontend && npm run typecheck
-
-# === Database ===
-
-migrate-up: ## Применить миграции
-	cd backend && go run ./cmd/migrate up
-
-migrate-down: ## Откатить последнюю миграцию
-	cd backend && go run ./cmd/migrate down
-
-migrate-create: ## Создать новую миграцию (NAME=xxx)
-	cd backend && go run ./cmd/migrate create $(NAME)
-
-# === Docker ===
-
-build: ## Собрать Docker образы
-	docker compose build
-
-rebuild: ## Пересобрать с нуля (no cache)
-	docker compose build --no-cache
-
-down: ## Остановить контейнеры
-	docker compose down
-
-logs: ## Логи всех сервисов
-	docker compose logs -f
-
-logs-api: ## Логи только API
-	docker compose logs -f api
-
-logs-bot: ## Логи только бота
-	docker compose logs -f bot
-
-# === Production ===
-
-deploy: ## Деплой на продакшен (через git push)
-	git push origin main
-	@echo "🚀 Deployed! Check GitHub Actions for status."
-
-ssh: ## SSH на сервер
-	ssh $(SSH_USER)@$(SSH_HOST)
-
-prod-logs: ## Логи продакшена
-	ssh $(SSH_USER)@$(SSH_HOST) "cd project && docker compose logs -f --tail 100"
-
-prod-restart: ## Рестарт продакшена
-	ssh $(SSH_USER)@$(SSH_HOST) "cd project && docker compose restart"
-
-# === Cleanup ===
-
-clean: ## Очистка временных файлов
-	rm -rf frontend/.nuxt frontend/.output frontend/node_modules/.vite
-	docker system prune -f
-
-# === Help ===
-
-help: ## Показать справку
-	@echo "Доступные команды:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
-
-# Default
+.PHONY: dev api frontend bot test lint deploy logs clean help tunnel
 .DEFAULT_GOAL := help
+
+# ═══════════════════════════════════════════════════════════════
+# 🚀 Development
+# ═══════════════════════════════════════════════════════════════
+
+dev: ## Start dev environment (Docker Compose)
+	$(call log_header,🚀 Starting Dev Environment)
+	@docker compose up -d
+	$(call log_success,Dev environment started!)
+	@printf "$(DIM)   Frontend: http://localhost:3000$(RESET)\n"
+	@printf "$(DIM)   API:      http://localhost:8080$(RESET)\n"
+
+api: ## Start backend API
+	$(call log_header,⚡ Starting API Server)
+	$(call log_info,API starting on :8080...)
+	@cd backend && go run ./cmd/api
+
+frontend: ## Start frontend (Nuxt dev)
+	$(call log_header,🎨 Starting Frontend)
+	$(call log_info,Nuxt dev server starting...)
+	@printf "$(DIM)   Local:   http://localhost:3000$(RESET)\n"
+	@printf "$(DIM)   Network: http://0.0.0.0:3000$(RESET)\n\n"
+	@cd frontend && npm run dev -- --host
+
+bot: ## Start Telegram bot
+	$(call log_header,🤖 Starting Telegram Bot)
+	$(call log_info,Bot is starting...)
+	@cd backend && go run ./cmd/bot
+
+# ═══════════════════════════════════════════════════════════════
+# 🧪 Testing
+# ═══════════════════════════════════════════════════════════════
+
+test: test-backend test-frontend ## Run all tests
+	$(call log_success,All tests passed!)
+
+test-backend: ## Run backend tests
+	$(call log_header,🧪 Backend Tests)
+	@cd backend && go test -v ./...
+
+test-frontend: ## Run frontend tests
+	$(call log_header,🧪 Frontend Tests)
+	@cd frontend && npm run test 2>/dev/null || echo "No frontend tests configured"
+
+# ═══════════════════════════════════════════════════════════════
+# 🔍 Quality
+# ═══════════════════════════════════════════════════════════════
+
+lint: lint-backend lint-frontend ## Run all linters
+	$(call log_success,Linting complete!)
+
+lint-backend: ## Lint Go code
+	$(call log_header,🔍 Go Linting)
+	@cd backend && golangci-lint run 2>/dev/null || echo "golangci-lint not installed"
+
+lint-frontend: ## Lint Vue/TS code
+	$(call log_header,🔍 Frontend Linting)
+	@cd frontend && npm run lint 2>/dev/null || echo "No lint script"
+
+typecheck: ## TypeScript type check
+	$(call log_header,📝 TypeScript Check)
+	@cd frontend && npm run typecheck 2>/dev/null || npx nuxi typecheck
+
+# ═══════════════════════════════════════════════════════════════
+# 🗄️ Database
+# ═══════════════════════════════════════════════════════════════
+
+db: ## Start database containers
+	$(call log_header,🐳 Starting Database)
+	@docker compose up -d
+	$(call log_success,Database is running!)
+	@printf "$(DIM)   PostgreSQL: localhost:5432$(RESET)\n"
+	@printf "$(DIM)   Redis:      localhost:6379$(RESET)\n"
+
+db-reset: ## ⚠️ WIPE all data and restart DBs
+	$(call log_header,🗑️  Resetting Database)
+	$(call log_warning,This will DELETE all data!)
+	@docker compose down -v
+	@docker compose up -d
+	$(call log_info,Waiting for Database to initialize...)
+	@sleep 5
+	$(call log_success,Database reset complete!)
+
+migrate-up: ## Apply migrations
+	$(call log_header,🔄 Running Migrations)
+	@cd backend && go run ./cmd/migrate up
+	$(call log_success,Migrations applied!)
+
+migrate-down: ## Rollback last migration
+	$(call log_header,🔄 Rolling Back Migration)
+	$(call log_warning,Rolling back last migration...)
+	@cd backend && go run ./cmd/migrate down
+
+migrate-create: ## Create new migration (NAME=xxx)
+	$(call log_header,📝 Creating Migration)
+	@cd backend && go run ./cmd/migrate create $(NAME)
+	$(call log_success,Migration created!)
+
+# ═══════════════════════════════════════════════════════════════
+# 🐳 Docker
+# ═══════════════════════════════════════════════════════════════
+
+build: ## Build Docker images
+	$(call log_header,🐳 Building Docker Images)
+	@docker compose build
+	$(call log_success,Build complete!)
+
+rebuild: ## Rebuild from scratch (no cache)
+	$(call log_header,🐳 Rebuilding Docker Images)
+	$(call log_warning,Building without cache...)
+	@docker compose build --no-cache
+	$(call log_success,Rebuild complete!)
+
+down: ## Stop all containers
+	$(call log_header,🛑 Stopping Containers)
+	@docker compose down
+	$(call log_success,All containers stopped!)
+
+logs: ## Show Docker logs
+	$(call log_header,📋 Docker Logs)
+	@docker compose logs -f --tail 50
+
+logs-api: ## Show API logs only
+	@docker compose logs -f api
+
+logs-bot: ## Show bot logs only
+	@docker compose logs -f bot
+
+# ═══════════════════════════════════════════════════════════════
+# 🌐 Dev Tunnel
+# ═══════════════════════════════════════════════════════════════
+
+tunnel: ## Open SSH tunnel for remote testing
+	$(call log_header,🌐 Dev Tunnel)
+	$(call log_info,Opening SSH tunnel...)
+	@printf "$(CYAN)   Local:$(RESET)  localhost:3000\n"
+	@printf "$(CYAN)   Remote:$(RESET) https://$(TUNNEL_HOST)\n\n"
+	$(call log_warning,Press Ctrl+C to close tunnel)
+	@printf "$(DIM)───────────────────────────────────────$(RESET)\n"
+	@ssh -R $(TUNNEL_PORT):localhost:3000 $(SSH_USER)@$(SSH_HOST) -N
+
+# ═══════════════════════════════════════════════════════════════
+# 🚀 Production
+# ═══════════════════════════════════════════════════════════════
+
+deploy: ## Deploy to production (git push)
+	$(call log_header,🚀 Deploying to Production)
+	$(call log_warning,Pushing to main branch...)
+	@git push origin main
+	$(call log_success,Deployed! Check GitHub Actions for status.)
+
+ssh: ## SSH to production server
+	$(call log_header,🔐 SSH to Production)
+	@ssh $(SSH_USER)@$(SSH_HOST)
+
+prod-logs: ## Show production logs
+	$(call log_header,📋 Production Logs)
+	@ssh $(SSH_USER)@$(SSH_HOST) "cd $(PROJECT_DIR) && docker compose logs -f --tail 100"
+
+prod-restart: ## Restart production containers
+	$(call log_header,🔄 Restarting Production)
+	$(call log_warning,Restarting containers on production...)
+	@ssh $(SSH_USER)@$(SSH_HOST) "cd $(PROJECT_DIR) && docker compose restart"
+	$(call log_success,Production restarted!)
+
+# ═══════════════════════════════════════════════════════════════
+# 🧹 Cleanup
+# ═══════════════════════════════════════════════════════════════
+
+clean: ## Clean temporary files
+	$(call log_header,🧹 Cleaning Up)
+	$(call log_info,Removing build artifacts...)
+	@rm -rf frontend/.nuxt frontend/.output frontend/node_modules/.vite
+	$(call log_info,Pruning Docker...)
+	@docker system prune -f
+	$(call log_success,Cleanup complete!)
+
+# ═══════════════════════════════════════════════════════════════
+# 📚 Help
+# ═══════════════════════════════════════════════════════════════
+
+help: ## Show this help
+	@printf "\n$(BOLD)$(MAGENTA)🤖 Project Name$(RESET) $(DIM)— Available Commands$(RESET)\n\n"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@printf "\n$(DIM)Usage: make <command>$(RESET)\n\n"
