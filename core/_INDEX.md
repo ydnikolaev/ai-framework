@@ -94,6 +94,7 @@
 | `docker.md` | Docker, docker-compose, best practices |
 | `ci-cd.md` | GitHub Actions, автоматизация |
 | `dev-tunnel.md` | SSH туннель для локальной разработки |
+| `git-flow.md` | Ветки, коммиты, правила для AI |
 
 **Читай когда:** Деплоишь, настраиваешь CI/CD, работаешь с Docker.
 
