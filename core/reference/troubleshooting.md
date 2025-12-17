@@ -59,3 +59,33 @@ const user = ref(null); // Singleton
 
 export const useUser = () => { ... }
 ```
+
+---
+
+## 🖼️ Images & Media
+
+### Мигание битой картинки при загрузке
+
+**Проблема:** При загрузке карточки без изображения, на долю секунды мелькает иконка "сломанного" изображения, прежде чем появляется fallback.
+
+**Причина:** Условие `v-if="poster && !posterError"` показывает `<img>` сразу, пока он ещё не загрузился.
+
+**Решение:** Показывать fallback по умолчанию, а картинку делать `opacity-0` до успешной загрузки:
+
+```vue
+<!-- Image preloads invisibly -->
+<img 
+  v-if="poster && !posterError" 
+  :src="poster"
+  class="absolute inset-0 transition-opacity"
+  :class="posterLoaded ? 'opacity-100' : 'opacity-0'"
+  @load="posterLoaded = true"
+  @error="posterError = true"
+>
+<!-- Fallback visible until image loads -->
+<div v-if="!poster || posterError || !posterLoaded">
+  <!-- fallback content -->
+</div>
+```
+
+**Файл:** `frontend/components/MovieCard.vue`
