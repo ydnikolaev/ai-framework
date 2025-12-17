@@ -1,0 +1,20 @@
+# AI-Framework additions
+.env
+.env.local
+*.log
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build
+dist/
+.output/
+.nuxt/
+node_modules/
+
+# Docker
+docker-compose.override.yml

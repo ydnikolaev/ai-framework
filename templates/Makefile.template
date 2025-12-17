@@ -1,0 +1,105 @@
+# 🤖 Project Makefile
+# Сгенерирован AI-Framework
+
+.PHONY: dev api frontend test lint deploy logs clean help
+
+# === Development ===
+
+dev: ## Запуск dev-окружения (Docker Compose)
+	docker compose up -d
+	@echo "✅ Dev environment started"
+	@echo "   Frontend: http://localhost:3000"
+	@echo "   API: http://localhost:8080"
+
+api: ## Запуск только backend
+	cd backend && go run ./cmd/api
+
+frontend: ## Запуск только frontend
+	cd frontend && npm run dev -- --host
+
+bot: ## Запуск только бота
+	cd backend && go run ./cmd/bot
+
+# === Testing ===
+
+test: test-backend test-frontend ## Все тесты
+
+test-backend: ## Тесты backend
+	cd backend && go test -v ./...
+
+test-frontend: ## Тесты frontend
+	cd frontend && npm run test
+
+# === Quality ===
+
+lint: lint-backend lint-frontend ## Весь линтинг
+
+lint-backend: ## Линтинг Go
+	cd backend && golangci-lint run
+
+lint-frontend: ## Линтинг Vue/TS
+	cd frontend && npm run lint
+
+typecheck: ## TypeScript проверка
+	cd frontend && npm run typecheck
+
+# === Database ===
+
+migrate-up: ## Применить миграции
+	cd backend && go run ./cmd/migrate up
+
+migrate-down: ## Откатить последнюю миграцию
+	cd backend && go run ./cmd/migrate down
+
+migrate-create: ## Создать новую миграцию (NAME=xxx)
+	cd backend && go run ./cmd/migrate create $(NAME)
+
+# === Docker ===
+
+build: ## Собрать Docker образы
+	docker compose build
+
+rebuild: ## Пересобрать с нуля (no cache)
+	docker compose build --no-cache
+
+down: ## Остановить контейнеры
+	docker compose down
+
+logs: ## Логи всех сервисов
+	docker compose logs -f
+
+logs-api: ## Логи только API
+	docker compose logs -f api
+
+logs-bot: ## Логи только бота
+	docker compose logs -f bot
+
+# === Production ===
+
+deploy: ## Деплой на продакшен (через git push)
+	git push origin main
+	@echo "🚀 Deployed! Check GitHub Actions for status."
+
+ssh: ## SSH на сервер
+	ssh $(SSH_USER)@$(SSH_HOST)
+
+prod-logs: ## Логи продакшена
+	ssh $(SSH_USER)@$(SSH_HOST) "cd project && docker compose logs -f --tail 100"
+
+prod-restart: ## Рестарт продакшена
+	ssh $(SSH_USER)@$(SSH_HOST) "cd project && docker compose restart"
+
+# === Cleanup ===
+
+clean: ## Очистка временных файлов
+	rm -rf frontend/.nuxt frontend/.output frontend/node_modules/.vite
+	docker system prune -f
+
+# === Help ===
+
+help: ## Показать справку
+	@echo "Доступные команды:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
+
+# Default
+.DEFAULT_GOAL := help
