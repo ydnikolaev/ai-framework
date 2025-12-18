@@ -23,6 +23,17 @@
 | `SSH_KEY` | Приватный SSH ключ (сгенерируй пару `ssh-keygen`, публичный положи в `~/.ssh/authorized_keys` на сервере) |
 | `SSH_PORT` | Порт SSH (если не 22) |
 
+### Секреты-файлы (Google Credentials и др.)
+Для передачи JSON-файлов (например, `google-cloud.json`) мы не храним их в репозитории, а передаем через GitHub Secrets в Base64.
+
+**Как добавить:**
+1. Закодируй файл в base64 (локально):
+   ```bash
+   base64 -i backend/secrets/google-cloud.json | tr -d '\n' | pbcopy
+   ```
+2. Создай секрет `GOOGLE_CLOUD_CREDENTIALS_B64` в GitHub.
+3. При деплое скрипт автоматически декодирует его в `backend/secrets/google-cloud.json`.
+
 ## 3. Как работает CI/CD
 
 Файл `.github/workflows/deploy.yml` выполняет следующие шаги при пуше в `main`:

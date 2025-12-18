@@ -1,0 +1,159 @@
+# ⚙️ Project Configuration
+
+# Этот файл определяет технологический стек проекта.
+# AI модель читает его, чтобы понимать контекст и применять правильные правила.
+
+---
+
+# 🏗️ Project Info
+project:
+  name: "KinoBot"
+  description: "Telegram бот + Mini App для отслеживания фильмов"
+  version: "0.5.3"
+
+---
+
+# 👤 Developer Environment
+environment:
+  # System
+  os: "macOS 26.1"        # Tahoe
+  arch: "arm64"           # Apple Silicon
+  ide: "Google Antigravity"
+  terminal: "iTerm2"
+  shell: "zsh"
+  
+  # Runtime versions
+  runtime:
+    node: "22.14.0"
+    go: "1.25.5"
+    npm: "10.x"
+  
+  # AI tools used
+  ai_tools:
+    - "Antigravity"       # Primary
+    - "Cursor"            # Sometimes
+    - "Copilot"           # In VS Code
+  
+  # Testing
+  testing:
+    browsers:
+      - "Safari"
+      - "Chrome"
+    devices:
+      - "iPhone 15 Pro (iOS 26)"
+      - "MacBook Pro M2"
+    telegram_client: "iOS"  # iOS | Android | Desktop | Web
+  
+  # Target platform for UI
+  target_platform: "iOS 26"  # Liquid Glass design
+
+---
+
+# 💻 Stack
+stack:
+  # Backend
+  backend:
+    language: "go"
+    version: "1.23"
+    framework: null  # стандартный net/http
+    orm: "pgx"       # или "gorm", "sqlc"
+    
+  # Frontend
+  frontend:
+    language: "typescript"
+    framework: "nuxt"
+    version: "4.0"
+    ui_library: "konsta-ui"
+    ui_version: "5.0"
+    
+  # Database
+  database:
+    type: "postgresql"
+    version: "16"
+    
+  # Platform
+  platform: "telegram-miniapp"
+
+---
+
+# 🎨 Design System
+design:
+  # Theme
+  theme: "ios"           # ios | material | auto
+  color_scheme: "auto"   # light | dark | auto (syncs with Telegram)
+  
+  # Icons
+  icons:
+    library: "lucide"    # lucide | heroicons | phosphor | custom
+    style: "outline"     # outline | solid | duotone
+    
+  # Animations
+  animations:
+    library: "lottie"    # lottie | rive | css
+    format: "json"       # json | dotlottie
+    
+  # Typography
+  fonts:
+    primary: "SF Pro"    # System font (iOS)
+    fallback: "Inter, sans-serif"
+
+---
+
+# 🔌 Integrations
+integrations:
+  # AI Providers (in priority order)
+  ai:
+    - provider: "anthropic"
+      model: "claude-sonnet-4-20250514"
+    - provider: "google"
+      model: "gemini-2.0-flash"
+      
+  # External APIs
+  apis:
+    - name: "tmdb"
+      docs: "https://developer.themoviedb.org"
+      rate_limit: "50/sec (recommended)"
+    - name: "kinopoisk"
+      docs: "https://kinopoisk.dev"
+      rate_limit: "5000/day"
+    - name: "kinopoisk_unofficial"
+      docs: "https://kinopoiskapiunofficial.tech"
+      rate_limit: "500/day (free tier)"
+    - name: "google_vision"
+      docs: "https://cloud.google.com/vision/docs"
+      rate_limit: "1800/min"
+
+---
+
+# 📚 Documentation Sources
+# Когда AI нужно обновить документацию — он идёт сюда
+docs_sources:
+  nuxt: "https://nuxt.com/docs"
+  konsta-ui: "https://konstaui.com/vue"
+  telegram-webapp: "https://core.telegram.org/bots/webapps"
+  lottie: "https://airbnb.io/lottie"
+  lucide: "https://lucide.dev/guide"
+
+---
+
+# 🛠️ Tools
+tools:
+  package_manager: "npm"      # npm | pnpm | yarn | bun
+  linter: 
+    backend: "golangci-lint"
+    frontend: "eslint"
+  formatter:
+    backend: "gofmt"
+    frontend: "prettier"
+  testing:
+    backend: "go test"
+    frontend: "vitest"
+
+---
+
+# 🚀 Deployment
+deployment:
+  provider: "vps"            # vps | vercel | railway | fly.io
+  container: "docker"
+  proxy: "traefik"
+  ci_cd: "github-actions"
