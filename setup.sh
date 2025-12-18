@@ -71,6 +71,39 @@ copy_if_not_exists "$SCRIPT_DIR/templates/cursorrules.template.md" "$PROJECT_ROO
 copy_if_not_exists "$SCRIPT_DIR/templates/copilot-instructions.template.md" "$PROJECT_ROOT/.github/copilot-instructions.md"
 
 echo ""
+
+# 6. Copy DX utilities for Go projects (if backend exists)
+if [ -d "$PROJECT_ROOT/backend" ]; then
+    echo -e "${YELLOW}🎨 Копирую DX утилиты для Go...${NC}"
+    
+    # Create pkg/dxlog directory
+    mkdir -p "$PROJECT_ROOT/backend/pkg/dxlog"
+    
+    if [ ! -f "$PROJECT_ROOT/backend/pkg/dxlog/dxlog.go" ]; then
+        if [ -f "$SCRIPT_DIR/templates/go/dxlog/dxlog.go" ]; then
+            cp "$SCRIPT_DIR/templates/go/dxlog/dxlog.go" "$PROJECT_ROOT/backend/pkg/dxlog/"
+            echo -e "   ${GREEN}✓${NC} Создан: backend/pkg/dxlog/dxlog.go"
+        fi
+    else
+        echo "   ⏭️  Пропущен (уже существует): dxlog.go"
+    fi
+    echo ""
+fi
+
+# 7. Copy Makefile DX include
+echo -e "${YELLOW}⚙️  Копирую Makefile DX утилиты...${NC}"
+mkdir -p "$PROJECT_ROOT/.make"
+if [ ! -f "$PROJECT_ROOT/.make/dx.mk" ]; then
+    if [ -f "$SCRIPT_DIR/templates/make/dx.mk" ]; then
+        cp "$SCRIPT_DIR/templates/make/dx.mk" "$PROJECT_ROOT/.make/"
+        echo -e "   ${GREEN}✓${NC} Создан: .make/dx.mk"
+        echo -e "   ${YELLOW}💡${NC} Добавь в Makefile: include .make/dx.mk"
+    fi
+else
+    echo "   ⏭️  Пропущен (уже существует): dx.mk"
+fi
+
+echo ""
 echo -e "${GREEN}✅ Setup завершён!${NC}"
 echo ""
 echo "Следующие шаги:"
