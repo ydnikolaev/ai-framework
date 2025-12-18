@@ -6,6 +6,13 @@
 
 ## [Unreleased]
 
+### Added
+- **Deploy Notifications**: macOS уведомления о деплое через webhook + polling
+  - Backend: `/api/deploy-webhook` и `/api/deploy-status` эндпоинты
+  - Mac: `make deploy-watch` команда + `scripts/deploy-watch.sh`
+  - GitHub Actions: автоматическая отправка webhook после деплоя
+  - iTerm2: `🔔 Deploy` панель в `make dev-full`
+
 ---
 
 ## [0.5.5] - 2025-12-18 (Hotfix)
