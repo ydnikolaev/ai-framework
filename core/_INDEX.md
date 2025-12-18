@@ -60,8 +60,9 @@
 
 | Файл | Технология |
 |------|------------|
+| `api-design.md` | REST API — conventions, errors, pagination |
 | `golang.md` | Go — правила, паттерны, ошибки |
-| `nuxt-vue.md` | Nuxt 4 / Vue 3 — Composition API, SSR, fetching |
+| `nuxt-vue.md` | Nuxt 4 / Vue 3 — Composition API, auto-imports |
 | `konsta-ui.md` | Konsta UI v5 — Liquid Glass, компоненты |
 | `telegram.md` | Telegram Mini Apps — WebApp API, initData |
 | `database.md` | PostgreSQL — миграции, индексы, JSONB |
@@ -135,6 +136,15 @@
 5. Если нужна справка по API — смотри docs/[framework]/
 6. ПОСЛЕ ЗАВЕРШЕНИЯ ЗАДАЧИ — обнови документацию! (см. reference/documentation-guide.md)
 ```
+
+### 🛑 Git Rules (CRITICAL!)
+
+> **Правила работы с Git — см. [git-flow.md](operations/git-flow.md)**
+
+1. **НЕ делай `commit`** без явной команды пользователя ("коммит", "commit")
+2. **НЕ делай `feature finish`** без подтверждения пользователя ("сливай", "finish")
+3. После `feature finish` → обнови `project/CHANGELOG.md` (Unreleased)
+4. User-facing изменения → обнови `frontend/content/changelog.json`
 
 ---
 

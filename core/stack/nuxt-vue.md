@@ -48,3 +48,27 @@ UserCard.vue
 // Props с типами
 defineProps<{ user: User }>()
 ```
+
+## 6. AUTO-IMPORT CONVENTIONS
+
+Nuxt автоматически импортирует компоненты из `components/` директории.
+
+### Правило именования папок
+
+Компоненты в поддиректориях получают **префикс** из названия папки:
+
+| Расположение | Использование в template |
+|--------------|-----------------------------|
+| `components/BaseChip.vue` | `<BaseChip>` |
+| `components/ui/BaseChip.vue` | `<UiBaseChip>` |
+| `components/forms/Input.vue` | `<FormsInput>` |
+
+```vue
+<!-- ✅ Правильно -->
+<UiBaseChip label="Action" color="blue" />
+
+<!-- ❌ Неправильно (компонент не найдется) -->
+<BaseChip label="Action" />  <!-- если файл в ui/ -->
+```
+
+> **Ссылка:** [Nuxt Components Directory](https://nuxt.com/docs/guide/directory-structure/components)
