@@ -112,3 +112,37 @@ echo "  2. Отредактируй ai-framework/project/CONTEXT.md"
 echo "  3. Создай .env из .env.example"
 echo "  4. Запусти: make dev"
 echo ""
+
+# 8. Copy DX scripts
+echo -e "${YELLOW}📜 Копирую DX скрипты...${NC}"
+mkdir -p "$PROJECT_ROOT/scripts"
+
+copy_script() {
+    local name="$1"
+    local src="$SCRIPT_DIR/templates/shell/$name"
+    local dest="$PROJECT_ROOT/scripts/$name"
+    if [ ! -f "$dest" ] && [ -f "$src" ]; then
+        cp "$src" "$dest"
+        chmod +x "$dest"
+        echo -e "   ${GREEN}✓${NC} Создан: scripts/$name"
+    fi
+}
+
+# Copy all DX scripts if templates exist
+for script in dx-logs.sh dx-prod-status.sh dx-db-logs.sh dx-status.sh; do
+    copy_script "$script"
+done
+
+# Copy Python iTerm2 scripts
+for script in dev-full.py dev-iterm.py prod-watch.py; do
+    copy_script "$script"
+done
+
+echo ""
+echo -e "${GREEN}✅ Setup завершён!${NC}"
+echo ""
+echo "Доступные команды:"
+echo "  make dev       — Базовая разработка (2x2 grid)"
+echo "  make dev-full  — Полная разработка (Local + Prod tabs)"
+echo "  make prod-watch — Мониторинг прода"
+echo ""
