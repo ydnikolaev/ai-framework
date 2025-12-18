@@ -75,6 +75,9 @@ while true; do
         echo -e "${GREEN}🚀 New Deploy!${NC} ${VERSION} (${COMMIT}) on ${BRANCH}"
         send_notification "🚀 Deploy Complete" "${VERSION} (${COMMIT}) on ${BRANCH}"
         
+        # Play sound (may bypass DND)
+        afplay /System/Library/Sounds/Glass.aiff &
+        
         # Save new deploy
         echo "$CURRENT" > "$LAST_DEPLOY_FILE"
     fi

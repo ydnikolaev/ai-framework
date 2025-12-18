@@ -61,6 +61,8 @@ PROD_DIR=your-project
 brew install terminal-notifier
 ```
 
+**Для DND bypass:** `System Settings → Focus → Do Not Disturb → Allowed Apps` → добавить Terminal/iTerm2.
+
 ### 3. GitHub Actions
 
 Добавить step в `deploy.yml`:
