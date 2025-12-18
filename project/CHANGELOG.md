@@ -8,6 +8,13 @@
 
 ---
 
+## [0.5.4] - 2025-12-18
+
+### Fixed
+- **Network**: Forced IPv4 usage for all HTTP clients (resolved `connect: connection refused` ipv6 errors on Docker).
+
+---
+
 ## [0.5.3] - 2025-12-18
 
 ### Fixed

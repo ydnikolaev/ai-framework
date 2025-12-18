@@ -9,7 +9,7 @@
 project:
   name: "KinoBot"
   description: "Telegram бот + Mini App для отслеживания фильмов"
-  version: "0.5.3"
+  version: "0.5.4"
 
 ---
 
