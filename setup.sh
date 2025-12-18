@@ -134,7 +134,7 @@ for script in dx-logs.sh dx-prod-status.sh dx-db-logs.sh dx-status.sh; do
 done
 
 # Copy Python iTerm2 scripts
-for script in dev-full.py dev-iterm.py prod-watch.py make-help.py; do
+for script in dev-full.py dev-iterm.py prod-watch.py make-help.py deploy-watch.sh; do
     copy_script "$script"
 done
 
