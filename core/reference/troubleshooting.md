@@ -132,3 +132,35 @@ make dev-stop
 **Профилактика:** 
 - `make dev-full` автоматически останавливает предыдущие процессы перед стартом
 - Используй разные токены для dev (`@DevBot`) и prod (`@ProdBot`)
+
+---
+
+## 🔗 Dev Tunnel
+
+### Gateway Timeout (504) на dev.waydownwego.ru
+
+**Симптом:** Туннель запущен, локальный сервер работает, но https://dev.waydownwego.ru возвращает 504.
+
+**Причина:** UFW блокирует трафик от Docker сети к порту туннеля.
+
+**Диагностика:**
+```bash
+# Проверить, слушает ли порт на сервере
+ssh deploy@server "ss -tlnp | grep 31337"
+
+# Проверить, может ли Docker достучаться
+ssh deploy@server "docker exec traefik wget -qO- http://host.docker.internal:31337 --timeout=5"
+```
+
+**Решение:**
+```bash
+# Открыть порт для Docker сетей
+ssh deploy@server "sudo ufw allow from 172.17.0.0/16 to any port 31337"
+ssh deploy@server "sudo ufw allow from 172.18.0.0/16 to any port 31337"
+ssh deploy@server "sudo ufw reload"
+
+# Перезапустить туннель
+make tunnel
+```
+
+> 📖 Полный гайд: [dev-tunnel.md](../operations/dev-tunnel.md)
