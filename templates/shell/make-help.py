@@ -8,6 +8,7 @@ import unicodedata
 # ANSI colors
 RESET = '\033[0m'
 BOLD = '\033[1m'
+RED = '\033[31m'
 GREEN = '\033[32m'
 YELLOW = '\033[33m'
 BLUE = '\033[34m'
@@ -54,7 +55,7 @@ def print_separator(widths, style='mid'):
 
 def main():
     # Column widths (visual)
-    widths = [15, 35, 32]
+    widths = [21, 35, 32]
     
     print(f"\n{BOLD}{MAGENTA}🎬 KinoBot Makefile{RESET}\n")
     
@@ -79,10 +80,12 @@ def main():
     # Database
     print_separator(widths, 'mid')
     print_row(f"{YELLOW}db{RESET}", "Запустить базу данных", "Перед началом разработки", widths)
-    print_row(f"{YELLOW}db-reset{RESET}", "Очистить и пересоздать БД", "Сбросить данные в чистое сост.", widths)
-    print_row(f"{RED}db-sync-from-prod{RESET}", "⚠️ Скачать PROD → DEV", "Синхронизация с продом", widths)
+    print_row(f"{RED}db-reset *{RESET}", "Очистить и пересоздать БД", "Удаляет все данные!", widths)
+    print_row(f"{RED}db-sync-from-prod *{RESET}", "Скачать PROD → DEV", "Перезапись DEV базы", widths)
     print_row(f"{YELLOW}migrate{RESET}", "Применить миграции (dev)", "После изменения схемы БД", widths)
-    print_row(f"{YELLOW}migrate-prod{RESET}", "Применить миграции (prod)", "Только для продакшна", widths)
+    print_row(f"{RED}migrate-prod *{RESET}", "Применить миграции (prod)", "Меняет схему PROD!", widths)
+    print_row(f"{RED}update-dev *{RESET}", "Обновить метаданные (dev)", "Расход API лимитов!", widths)
+    print_row(f"{RED}update-prod *{RESET}", "Обновить метаданные (prod)", "Расход API лимитов!", widths)
     
     # Production
     print_separator(widths, 'mid')
@@ -101,7 +104,8 @@ def main():
     print_row(f"{MAGENTA}deploy-watch{RESET}", "Уведомления о деплое", "Мониторинг на MacOS", widths)
     
     print_separator(widths, 'bottom')
-    print(f"\n{DIM}Использование:{RESET} {BOLD}make <команда>{RESET}\n")
+    print(f"\n{DIM}Использование:{RESET} {BOLD}make <команда>{RESET}")
+    print(f"{DIM}{RED}* = требует подтверждения{RESET}\n")
 
 
 if __name__ == "__main__":
