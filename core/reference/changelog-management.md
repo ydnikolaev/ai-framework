@@ -6,7 +6,7 @@
 
 ## 📁 Файлы Changelog
 
-### 1. Git Changelog (`ai-framework/project/CHANGELOG.md`)
+### 1. Git Changelog (`/project/CHANGELOG.md`)
 
 **Цель:** Техническая история изменений для разработчиков.
 

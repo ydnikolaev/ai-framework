@@ -144,3 +144,6 @@ console.log(`API took: ${performance.now() - start}ms`)
 - [ ] Нет N+1 запросов
 - [ ] Lighthouse score > 90
 - [ ] Skeleton/loading states везде
+
+## 📂 Аудиты
+Отчеты по производительности складывай в `/project/audits/performance/`.

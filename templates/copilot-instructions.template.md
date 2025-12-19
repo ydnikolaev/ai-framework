@@ -7,8 +7,8 @@ Communicate in Russian (русский язык).
 
 ## Project Context
 Before answering, read:
-1. `ai-framework/project/CONFIG.yaml` — tech stack and versions
-2. `ai-framework/project/CONTEXT.md` — project specifics
+1. `/project/CONFIG.yaml` — tech stack and versions
+2. `/project/CONTEXT.md` — project specifics
 3. `ai-framework/core/_INDEX.md` — documentation map
 
 ## Documentation Structure

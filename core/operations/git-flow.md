@@ -66,7 +66,7 @@ AI-агент обязан использовать утилиту `git flow` д
 
 > **ВАЖНО:** После каждой фичи/фикса/релиза обновляй соответствующие changelog файлы!
 
-### Git Changelog (`ai-framework/project/CHANGELOG.md`)
+### Git Changelog (`/project/CHANGELOG.md`)
 - **Язык:** English
 - **Формат:** [Keep a Changelog](https://keepachangelog.com/)
 - **Когда обновлять:**

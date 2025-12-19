@@ -20,24 +20,35 @@ NC='\033[0m' # No Color
 # 1. Copy templates to project/
 echo -e "${YELLOW}📋 Копирую шаблоны в project/...${NC}"
 
+# Create directory structure
+mkdir -p "$PROJECT_ROOT/project"
+mkdir -p "$PROJECT_ROOT/project/assets/animations"
+mkdir -p "$PROJECT_ROOT/project/assets/design"
+mkdir -p "$PROJECT_ROOT/project/assets/images"
+mkdir -p "$PROJECT_ROOT/project/testing"
+mkdir -p "$PROJECT_ROOT/project/audits/security"
+mkdir -p "$PROJECT_ROOT/project/audits/seo"
+mkdir -p "$PROJECT_ROOT/project/audits/performance"
+
 copy_if_not_exists() {
     local src="$1"
     local dest="$2"
     if [ ! -f "$dest" ]; then
         cp "$src" "$dest"
-        echo -e "   ${GREEN}✓${NC} Создан: $(basename $dest)"
+        echo -e "   ${GREEN}✓${NC} Создан: project/$(basename $dest)"
     else
-        echo "   ⏭️  Пропущен (уже существует): $(basename $dest)"
+        echo "   ⏭️  Пропущен (уже существует): project/$(basename $dest)"
     fi
 }
 
 # Project files
-copy_if_not_exists "$SCRIPT_DIR/templates/CONFIG.template.yaml" "$SCRIPT_DIR/project/CONFIG.yaml"
-copy_if_not_exists "$SCRIPT_DIR/templates/CONTEXT.template.md" "$SCRIPT_DIR/project/CONTEXT.md"
-copy_if_not_exists "$SCRIPT_DIR/templates/BACKLOG.template.md" "$SCRIPT_DIR/project/BACKLOG.md"
-copy_if_not_exists "$SCRIPT_DIR/templates/DECISIONS.template.md" "$SCRIPT_DIR/project/DECISIONS.md"
-copy_if_not_exists "$SCRIPT_DIR/templates/PROMPTS.template.md" "$SCRIPT_DIR/project/PROMPTS.md"
-copy_if_not_exists "$SCRIPT_DIR/templates/CHANGELOG.template.md" "$SCRIPT_DIR/project/CHANGELOG.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/CONFIG.yaml.template" "$PROJECT_ROOT/project/CONFIG.yaml"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/CONTEXT.md.template" "$PROJECT_ROOT/project/CONTEXT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/BACKLOG.md.template" "$PROJECT_ROOT/project/BACKLOG.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/DECISIONS.md.template" "$PROJECT_ROOT/project/DECISIONS.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/PROMPTS.md.template" "$PROJECT_ROOT/project/PROMPTS.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/CHANGELOG.md.template" "$PROJECT_ROOT/project/CHANGELOG.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/NOTES.md.template" "$PROJECT_ROOT/project/NOTES.md"
 
 echo ""
 
@@ -107,8 +118,8 @@ echo ""
 echo -e "${GREEN}✅ Setup завершён!${NC}"
 echo ""
 echo "Следующие шаги:"
-echo "  1. Отредактируй ai-framework/project/CONFIG.yaml"
-echo "  2. Отредактируй ai-framework/project/CONTEXT.md"
+echo "  1. Отредактируй project/CONFIG.yaml"
+echo "  2. Отредактируй project/CONTEXT.md"
 echo "  3. Создай .env из .env.example"
 echo "  4. Запусти: make dev"
 echo ""

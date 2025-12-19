@@ -10,8 +10,8 @@
 
 **ПЕРЕД любой работой с проектом:**
 
-1. **`ai-framework/project/CONFIG.yaml`** — стек, версии, настройки
-2. **`ai-framework/project/CONTEXT.md`** — специфика проекта
+1. **`/project/CONFIG.yaml`** — стек, версии, настройки
+2. **`/project/CONTEXT.md`** — специфика проекта
 3. **`ai-framework/core/_INDEX.md`** — карта всей документации
 
 ---
