@@ -80,6 +80,7 @@ def main():
     print_separator(widths, 'mid')
     print_row(f"{YELLOW}db{RESET}", "Запустить базу данных", "Перед началом разработки", widths)
     print_row(f"{YELLOW}db-reset{RESET}", "Очистить и пересоздать БД", "Сбросить данные в чистое сост.", widths)
+    print_row(f"{RED}db-sync-from-prod{RESET}", "⚠️ Скачать PROD → DEV", "Синхронизация с продом", widths)
     print_row(f"{YELLOW}migrate{RESET}", "Применить миграции (dev)", "После изменения схемы БД", widths)
     print_row(f"{YELLOW}migrate-prod{RESET}", "Применить миграции (prod)", "Только для продакшна", widths)
     
@@ -97,6 +98,7 @@ def main():
     print_row(f"{MAGENTA}tunnel{RESET}", "SSH туннель для тестирования", "Показать мини-апп на телефоне", widths)
     print_row(f"{MAGENTA}test{RESET}", "Запустить тесты", "Перед коммитом изменений", widths)
     print_row(f"{MAGENTA}clean{RESET}", "Очистить временные файлы", "Освободить место на диске", widths)
+    print_row(f"{MAGENTA}deploy-watch{RESET}", "Уведомления о деплое", "Мониторинг на MacOS", widths)
     
     print_separator(widths, 'bottom')
     print(f"\n{DIM}Использование:{RESET} {BOLD}make <команда>{RESET}\n")

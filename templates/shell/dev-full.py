@@ -59,6 +59,13 @@ def get_display_info():
         return False, (50, 50, 1400, 900)
 
 
+async def hide_status_bar(session):
+    """Hide status bar for a session (cleaner look for dev-full)"""
+    change = iterm2.LocalWriteOnlyProfile()
+    change.set_status_bar_enabled(False)
+    await session.async_set_profile_properties(change)
+
+
 async def main(connection):
     app = await iterm2.async_get_app(connection)
     
@@ -85,27 +92,40 @@ async def main(connection):
     # Row 1: Bot | API | DB Logs
     bot = tab1.current_session
     await bot.async_set_name("🤖 Bot")
+    await hide_status_bar(bot)
     await bot.async_send_text(f"cd '{PROJECT_DIR}' && make bot\n")
     
     api = await bot.async_split_pane(vertical=True)
     await api.async_set_name("⚡ API")
+    await hide_status_bar(api)
     await api.async_send_text(f"cd '{PROJECT_DIR}' && make api\n")
     
     db_logs = await api.async_split_pane(vertical=True)
     await db_logs.async_set_name("📊 DB Logs")
+    await hide_status_bar(db_logs)
     await db_logs.async_send_text(f"cd '{PROJECT_DIR}' && ./scripts/dx-db-logs.sh\n")
     
-    # Row 2: Frontend | Tunnel | Status
+    # Row 2: Frontend | Tunnel+Deploy | Status
     frontend = await bot.async_split_pane(vertical=False)
     await frontend.async_set_name("🎨 Frontend")
+    await hide_status_bar(frontend)
     await frontend.async_send_text(f"cd '{PROJECT_DIR}' && make frontend\n")
     
+    # Split API horizontally to create Tunnel below it
     tunnel = await api.async_split_pane(vertical=False)
     await tunnel.async_set_name("🌐 Tunnel")
+    await hide_status_bar(tunnel)
     await tunnel.async_send_text(f"cd '{PROJECT_DIR}' && make tunnel\n")
+    
+    # Split Tunnel horizontally to create Deploy below it
+    deploy_watch = await tunnel.async_split_pane(vertical=False)
+    await deploy_watch.async_set_name("🔔 Deploy")
+    await hide_status_bar(deploy_watch)
+    await deploy_watch.async_send_text(f"cd '{PROJECT_DIR}' && ./scripts/deploy-watch.sh\n")
     
     status = await db_logs.async_split_pane(vertical=False)
     await status.async_set_name("📋 Status")
+    await hide_status_bar(status)
     await status.async_send_text(f"cd '{PROJECT_DIR}' && ./scripts/dx-status.sh\n")
     
     # ═══════════════════════════════════════════════════════════════
@@ -116,19 +136,23 @@ async def main(connection):
     # Row 1: Prod Bot | Prod API
     prod_bot = tab2.current_session
     await prod_bot.async_set_name("🤖 Prod Bot")
+    await hide_status_bar(prod_bot)
     await prod_bot.async_send_text(f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_bot'\n")
     
     prod_api = await prod_bot.async_split_pane(vertical=True)
     await prod_api.async_set_name("⚡ Prod API")
+    await hide_status_bar(prod_api)
     await prod_api.async_send_text(f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_api'\n")
     
     # Row 2: Prod DB | Prod Status
     prod_db = await prod_bot.async_split_pane(vertical=False)
     await prod_db.async_set_name("📊 Prod DB")
+    await hide_status_bar(prod_db)
     await prod_db.async_send_text(f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_db'\n")
     
     prod_status = await prod_api.async_split_pane(vertical=False)
     await prod_status.async_set_name("📋 Prod Status")
+    await hide_status_bar(prod_status)
     await prod_status.async_send_text(f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-prod-status.sh'\n")
     
     # Switch to Tab 1
@@ -137,7 +161,7 @@ async def main(connection):
     monitor_info = "🖥️  External monitor" if has_external else "💻 Built-in display"
     print(f"✅ Full dev environment started! ({monitor_info})")
     print(f"   Window: {width}x{height} at ({x}, {y})")
-    print("   Tab 1: 🖥️  Local Dev (bot, api, frontend, tunnel, db logs, status)")
+    print("   Tab 1: 🖥️  Local Dev (bot, api, frontend, tunnel, deploy watch, db logs, status)")
     print("   Tab 2: 🌐 Prod Monitoring (bot, api, postgres, status)")
 
 if __name__ == "__main__":

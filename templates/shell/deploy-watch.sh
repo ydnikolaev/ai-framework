@@ -44,7 +44,8 @@ send_notification() {
     local message="$2"
     
     if [ -z "$USE_FALLBACK" ]; then
-        terminal-notifier -title "$title" -message "$message" -sound "Glass" -group "deploy-watch"
+        # Suppress "Removing previously sent notification" message
+        terminal-notifier -title "$title" -message "$message" -sound "Glass" -group "deploy-watch" 2>/dev/null
     else
         osascript -e "display notification \"$message\" with title \"$title\" sound name \"Glass\""
     fi
