@@ -1,176 +1,49 @@
-# Telegram WebApp SDK — Documentation
+# Telegram Mini Apps Documentation
 
-> **Version:** 8.0  
-> **Last Updated:** 2025-12-17  
-> **Source:** https://core.telegram.org/bots/webapps
-
----
+> **Version:** 7.10+ (Bot API)
+> **Last Updated:** 2025-12-19
 
 ## 📋 Обзор
 
-Telegram Web Apps (Mini Apps) — веб-приложения, запускаемые внутри Telegram.
-
-**Key Features:**
-- Native-like experience
-- User authentication via initData
-- Haptic feedback
-- Theme sync
-- Payment integration
+Telegram Mini Apps — это веб-приложения, которые запускаются внутри Telegram. Они имеют доступ к специфичному API для взаимодействия с клиентом (темы, биометрия, тактильный отклик, QR и др.).
 
 ---
 
-## 🔌 Подключение
+## 🏗️ Структура документации
 
-```typescript
-// composables/useTelegram.ts
-declare global {
-  interface Window {
-    Telegram?: {
-      WebApp: TelegramWebApp
-    }
-  }
-}
+### 🛠️ API & SDK
+- [WebApp API](api/webapp.md) — Основной JS SDK (`window.Telegram.WebApp`)
+- [Bot API](api/bot.md) — Серверное взаимодействие
 
-export const useTelegram = () => {
-  const webApp = computed(() => window.Telegram?.WebApp)
-  const user = computed(() => webApp.value?.initDataUnsafe?.user)
-  const initData = computed(() => webApp.value?.initData)
-  
-  return { webApp, user, initData }
-}
+### 🎨 Design & UX
+- [Design Patterns](design/patterns.md) — Цвета, лейаут, принципы нативности
+
+### ✨ Features (Guides)
+| Фича | Описание |
+|------|----------|
+| [Haptics](features/haptics.md) | Вибрация и тактильный отклик |
+| [Biometrics](features/biometrics.md) | FaceID / TouchID auth |
+| [CloudStorage](features/cloud-storage.md) | Синхронизация настроек (K/V) |
+| [Sensors](features/sensors.md) | Гироскоп и акселерометр |
+| [System](features/system.md) | Fullscreen, создание ярлыков, темы |
+| [Media & Files](features/media.md) | Камера, галерея, контакты |
+| [Monetization](features/monetization.md) | Stars, Sharing, Viral |
+
+---
+
+## � Быстрый старт (Vue/Nuxt)
+
+### Установка SDK
+```bash
+npm install @twa-dev/sdk
 ```
 
----
-
-## 🎨 Theme
-
+### Использование
 ```typescript
-const { webApp } = useTelegram()
+import WebApp from '@twa-dev/sdk'
 
-// Цветовая схема
-const colorScheme = webApp.value?.colorScheme // 'light' | 'dark'
-
-// Цвета темы
-const themeParams = webApp.value?.themeParams
-// {
-//   bg_color: '#ffffff',
-//   text_color: '#000000',
-//   hint_color: '#999999',
-//   ...
-// }
-```
-
----
-
-## 📳 Haptic Feedback
-
-```typescript
-const { webApp } = useTelegram()
-
-// Impact
-webApp.value?.HapticFeedback.impactOccurred('light')   // light | medium | heavy | rigid | soft
-
-// Notification
-webApp.value?.HapticFeedback.notificationOccurred('success')  // error | success | warning
-
-// Selection
-webApp.value?.HapticFeedback.selectionChanged()
-```
-
-### Когда использовать
-
-| Событие | Тип |
-|---------|-----|
-| Tap на кнопку | `impactOccurred('light')` |
-| Успешное действие | `notificationOccurred('success')` |
-| Ошибка | `notificationOccurred('error')` |
-| Выбор элемента | `selectionChanged()` |
-| Длинное нажатие | `impactOccurred('medium')` |
-
----
-
-## 🔐 Аутентификация
-
-### Frontend
-```typescript
-const { initData } = useTelegram()
-
-// Отправляем в заголовке
-await $fetch('/api/movies', {
-  headers: {
-    'Authorization': initData.value
-  }
+onMounted(() => {
+  WebApp.ready()
+  WebApp.expand()
 })
 ```
-
-### Backend (Go)
-```go
-func ValidateInitData(initData, botToken string) bool {
-    // 1. Parse query string
-    // 2. Extract and remove hash
-    // 3. Sort remaining params
-    // 4. Join with \n
-    // 5. HMAC-SHA256 with WebAppData secret
-    // 6. Compare hashes
-}
-```
-
----
-
-## 📐 Safe Areas
-
-```typescript
-// CSS переменные от Telegram
-const safeAreaInsetTop = 'var(--tg-safe-area-inset-top)'
-const contentSafeAreaTop = 'var(--tg-content-safe-area-inset-top)'
-```
-
-```css
-.header {
-  padding-top: calc(var(--tg-content-safe-area-inset-top, 0px) + 16px);
-}
-```
-
----
-
-## 🎛️ Основные методы
-
-```typescript
-const { webApp } = useTelegram()
-
-// Экспанд
-webApp.value?.expand()
-
-// Закрыть
-webApp.value?.close()
-
-// Main button
-webApp.value?.MainButton.setText('Submit')
-webApp.value?.MainButton.show()
-webApp.value?.MainButton.onClick(() => {})
-
-// Back button
-webApp.value?.BackButton.show()
-webApp.value?.BackButton.onClick(() => router.back())
-
-// Popup
-webApp.value?.showPopup({
-  title: 'Confirm',
-  message: 'Are you sure?',
-  buttons: [
-    { type: 'ok' },
-    { type: 'cancel' }
-  ]
-})
-
-// Alert
-webApp.value?.showAlert('Hello!')
-```
-
----
-
-## 🔗 Ссылки
-
-- [Official Docs](https://core.telegram.org/bots/webapps)
-- [WebApp API](https://core.telegram.org/bots/webapps#initializing-mini-apps)
-- [Theme Parameters](https://core.telegram.org/bots/webapps#themeparams)
