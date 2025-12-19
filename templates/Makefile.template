@@ -172,6 +172,22 @@ migrate-create: ## Create new migration (NAME=xxx)
 	@cd backend && go run ./cmd/migrate create $(NAME)
 	$(call log_success,Migration created!)
 
+db-sync-from-prod: ## ⚠️ Download PROD database and replace DEV
+	@python3 ./scripts/dx-confirm-sync.py "$(PROD_SERVER)" "$(PROD_DIR)"
+	@printf "\n"
+	$(call log_header,🔄 Syncing PROD → DEV)
+	$(call log_info,Step 1/3: Dumping PROD database...)
+	@ssh $(PROD_SERVER) "docker exec $${PROJECT_NAME}_db pg_dump -U user -d $${PROJECT_NAME} --clean --if-exists" > /tmp/prod_dump.sql
+	@printf "$(GREEN)$(BOLD)✓$(RESET) PROD dump complete! ($$(wc -c < /tmp/prod_dump.sql | xargs) bytes)\n"
+	$(call log_info,Step 2/3: Dropping DEV database...)
+	@docker exec $${PROJECT_NAME}_db psql -U user -d postgres -c "DROP DATABASE IF EXISTS $${PROJECT_NAME}_dev;" 2>/dev/null || true
+	@docker exec $${PROJECT_NAME}_db psql -U user -d postgres -c "CREATE DATABASE $${PROJECT_NAME}_dev;" 2>/dev/null || true
+	$(call log_info,Step 3/3: Restoring to DEV...)
+	@docker exec -i $${PROJECT_NAME}_db psql -U user -d $${PROJECT_NAME}_dev < /tmp/prod_dump.sql
+	@rm /tmp/prod_dump.sql
+	$(call log_success,DEV database synced from PROD!)
+	@printf "\n$(GREEN)$(BOLD)✨ Done!$(RESET) $(DIM)DEV теперь содержит копию PROD данных.$(RESET)\n\n"
+
 # ═══════════════════════════════════════════════════════════════
 # 🐳 Docker
 # ═══════════════════════════════════════════════════════════════
