@@ -34,6 +34,9 @@
 |---------|------------|
 | `make dev` | Базовая разработка (2x2 grid: bot, api, frontend, tunnel). |
 | `make dev-full` | **Полная разработка** — 2 вкладки: Local (3x2) + Prod (2x2). |
+| `make dev-stop` | **Остановить ВСЁ** dev-окружение (bot, api, frontend, tunnel). |
+| `make dev-restart` | Перезапустить dev-окружение (stop → start). |
+| `make bot-stop` | Остановить все локальные процессы бота. |
 | `make prod-watch` | Мониторинг прода (2x2 grid с SSH логами). |
 | `make prod-status` | Быстрый статус контейнеров прода. |
 | `make prod-logs-api` | Логи API прода. |

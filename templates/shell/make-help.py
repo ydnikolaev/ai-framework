@@ -70,6 +70,12 @@ def main():
     print_row(f"{GREEN}frontend{RESET}", "Запустить фронтенд", "Работа над интерфейсом", widths)
     print_row(f"{GREEN}bot{RESET}", "Запустить бота", "Тестирование логики бота", widths)
     
+    # Process Control
+    print_separator(widths, 'mid')
+    print_row(f"{YELLOW}bot-stop{RESET}", "Остановить все процессы бота", "Конфликт 'other getUpdates'", widths)
+    print_row(f"{YELLOW}dev-stop{RESET}", "Остановить всё dev-окружение", "Перед перезапуском", widths)
+    print_row(f"{YELLOW}dev-restart{RESET}", "Перезапустить dev-окружение", "Stop + Start", widths)
+    
     # Database
     print_separator(widths, 'mid')
     print_row(f"{YELLOW}db{RESET}", "Запустить базу данных", "Перед началом разработки", widths)

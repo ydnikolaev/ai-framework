@@ -1,0 +1,26 @@
+# ⚙️ Operations (DevOps) — Index
+
+> CI/CD, деплой, Docker, Git workflow.
+
+---
+
+## 📄 Файлы
+
+| Файл | Назначение |
+|------|------------|
+| [git-flow.md](git-flow.md) | **Git Flow** — ветки, коммиты, правила для AI |
+| [deployment.md](deployment.md) | Гайд по деплою на прод |
+| [docker.md](docker.md) | Docker, docker-compose |
+| [environments.md](environments.md) | Dev/Staging/Prod окружения |
+| [ci-cd.md](ci-cd.md) | GitHub Actions |
+| [dev-tunnel.md](dev-tunnel.md) | SSH туннель для тестирования |
+| [deploy-notifications.md](deploy-notifications.md) | macOS уведомления о деплое |
+
+---
+
+## 🎯 Когда читать
+
+- Деплоишь на прод
+- Настраиваешь Docker
+- Работаешь с ветками Git
+- Настраиваешь CI/CD

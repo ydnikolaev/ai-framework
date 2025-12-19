@@ -46,14 +46,40 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
-.PHONY: dev api frontend bot test lint deploy logs clean help tunnel
+.PHONY: dev api frontend bot test lint deploy logs clean help tunnel bot-stop dev-stop dev-restart
 .DEFAULT_GOAL := help
+
+# ═══════════════════════════════════════════════════════════════
+# 🛑 Process Control
+# ═══════════════════════════════════════════════════════════════
+
+bot-stop: ## Stop all local bot processes
+	$(call log_header,🛑 Stopping Bot Processes)
+	@pkill -f "go run ./cmd/bot" 2>/dev/null || true
+	@pkill -f "/exe/bot$$" 2>/dev/null || true
+	@pkill -f "go-build.*bot$$" 2>/dev/null || true
+	$(call log_success,All bot processes stopped!)
+
+dev-stop: ## Stop ALL dev processes (bot, api, frontend, tunnel)
+	$(call log_header,🛑 Stopping Dev Environment)
+	@pkill -f "go run ./cmd/bot" 2>/dev/null || true
+	@pkill -f "go run ./cmd/api" 2>/dev/null || true
+	@pkill -f "/exe/bot$$" 2>/dev/null || true
+	@pkill -f "/exe/api$$" 2>/dev/null || true
+	@pkill -f "go-build.*bot$$" 2>/dev/null || true
+	@pkill -f "go-build.*api$$" 2>/dev/null || true
+	@pkill -f "nuxt dev" 2>/dev/null || true
+	@pkill -f "npm run dev" 2>/dev/null || true
+	@pkill -f "ssh -R" 2>/dev/null || true
+	$(call log_success,Dev environment stopped!)
+
+dev-restart: dev-stop dev ## Restart entire dev environment
 
 # ═══════════════════════════════════════════════════════════════
 # 🚀 Development
 # ═══════════════════════════════════════════════════════════════
 
-dev: ## Start dev environment (Docker Compose)
+dev: dev-stop ## Start dev environment (Docker Compose)
 	$(call log_header,🚀 Starting Dev Environment)
 	@docker compose up -d
 	$(call log_success,Dev environment started!)

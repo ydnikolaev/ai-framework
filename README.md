@@ -72,9 +72,15 @@ ai-framework/
 │   │   ├── docker.md
 │   │   └── ci-cd.md
 │   │
+│   ├── dx/                 # 🆕 Developer Experience
+│   │   ├── development-rules.md
+│   │   ├── commands-reference.md
+│   │   ├── service-restart.md
+│   │   └── iterm-automation.md
+│   │
 │   └── reference/          # Справочники
-│       ├── cheat-sheet.md
 │       ├── troubleshooting.md
+│       ├── documentation-guide.md
 │       └── glossary.md
 │
 ├── docs/                    # 📚 FRAMEWORK DOCS (обновляемые)
