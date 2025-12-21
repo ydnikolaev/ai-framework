@@ -59,6 +59,37 @@ pip install iterm2 pyobjc-framework-Cocoa python-dotenv
 
 ---
 
+### `dev-restart.py` — Перезапуск в существующем окне
+
+Перезапускает ВСЕ сессии в текущем dev-окне по позиции (не по имени).
+
+**Как работает:**
+1. Находит dev-окно по layout (2 tabs, 7+ sessions)
+2. Отправляет Ctrl+C во все панели
+3. Перезапускает команды по ПОЗИЦИИ в layout
+
+**Запуск:** 
+```bash
+make dev-restart              # Все 11 сессий (7 local + 4 prod)
+make dev-restart --local-only # Только 7 локальных сессий
+```
+
+---
+
+### `dev-stop.py` — Остановка всех сессий
+
+Останавливает все процессы в dev-окне (Ctrl+C).
+
+> **Важно:** Для prod monitoring только закрывает SSH-сессии мониторинга, НЕ убивает процессы на продакшене.
+
+**Запуск:**
+```bash
+make dev-stop              # Остановить все сессии
+make dev-stop --local-only # Только локальные
+```
+
+---
+
 ## ⚙️ Конфигурация
 
 Скрипты читают настройки из `.env`:
@@ -87,5 +118,7 @@ PROD_DIR=project-name
 | Проект | Шаблон (ai-framework) |
 |--------|-----------------------|
 | `scripts/dev-full.py` | `templates/shell/dev-full.py` |
+| `scripts/dev-restart.py` | `templates/shell/dev-restart.py` |
+| `scripts/dev-stop.py` | `templates/shell/dev-stop.py` |
 | `scripts/dev-iterm.py` | `templates/shell/dev-iterm.py` |
 | `scripts/prod-watch.py` | `templates/shell/prod-watch.py` |

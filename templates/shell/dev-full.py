@@ -19,6 +19,34 @@ Usage: python3 scripts/dev-full.py [project_dir]
 import iterm2
 import sys
 import os
+import subprocess
+import time
+
+def ensure_iterm_running():
+    """Check if iTerm2 is running, start it if not, and wait for it to be ready."""
+    # Check if iTerm2 is running
+    result = subprocess.run(
+        ["pgrep", "-x", "iTerm2"],
+        capture_output=True
+    )
+    
+    if result.returncode != 0:
+        print("🚀 Starting iTerm2...")
+        subprocess.run(["open", "-a", "iTerm"])
+        
+        # Wait for iTerm2 to fully start and Python API to be ready
+        max_wait = 10  # seconds
+        for i in range(max_wait):
+            time.sleep(1)
+            check = subprocess.run(["pgrep", "-x", "iTerm2"], capture_output=True)
+            if check.returncode == 0:
+                # Give it an extra second for the Python API to initialize
+                time.sleep(2)
+                print("✅ iTerm2 started successfully")
+                return
+        
+        print("❌ Failed to start iTerm2")
+        sys.exit(1)
 
 # Load .env from project root
 PROJECT_DIR = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
@@ -165,4 +193,5 @@ async def main(connection):
     print("   Tab 2: 🌐 Prod Monitoring (bot, api, postgres, status)")
 
 if __name__ == "__main__":
+    ensure_iterm_running()
     iterm2.run_until_complete(main)
