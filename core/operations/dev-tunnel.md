@@ -149,6 +149,24 @@ https://dev.waydownwego.ru
 2. В настройках бота: **Menu Button** → `https://dev.waydownwego.ru`
 3. Используй токен этого бота в локальном `.env`
 
+## Автоматическая настройка Firewall
+
+При смене сети (дом → кафе) меняется IP и туннель ломается. 
+`make dev-full` и `make dev-restart` автоматически:
+
+1. Добавляют текущий IP в UFW на сервере
+2. Освобождают зависший порт 31337
+3. Запускают туннель
+
+При `make dev-stop` IP автоматически удаляется из UFW.
+
+### Ручное управление
+
+```bash
+make tunnel-fw-add     # Добавить IP + освободить порт
+make tunnel-fw-remove  # Удалить IP из UFW
+```
+
 ## Troubleshooting
 
 ### Gateway Timeout
@@ -170,6 +188,28 @@ https://dev.waydownwego.ru
 docker exec traefik wget -qO- http://host.docker.internal:31337 --timeout=5
 ```
 
+### Remote port forwarding failed
+
+Порт 31337 занят старой SSH сессией. Решение:
+
+```bash
+make tunnel-fw-add  # Освободит порт автоматически
+```
+
+Или вручную:
+```bash
+ssh deploy@waydownwego.ru "sudo fuser -k 31337/tcp"
+```
+
+### Сменился IP (дом → кафе)
+
+`make dev-restart` автоматически добавит новый IP. 
+
+Или вручную:
+```bash
+make tunnel-fw-add
+```
+
 ## Алиас для удобства
 
 Добавь в `~/.zshrc`:
@@ -179,3 +219,4 @@ alias dev-tunnel="ssh -R 31337:localhost:3000 deploy@waydownwego.ru -N"
 ```
 
 Теперь просто: `dev-tunnel` и работай!
+
