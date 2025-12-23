@@ -1,6 +1,8 @@
 # 🏗️ Architecture — Index
 
-> Архитектурные решения, слои, паттерны.
+> **Role:** Architecture Guide
+> **Objective:** Define layers, patterns, and data flow.
+> **Context:** Start here when designing new features or refactoring.
 
 ---
 

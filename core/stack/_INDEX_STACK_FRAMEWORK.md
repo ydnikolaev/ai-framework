@@ -1,6 +1,8 @@
 # 💻 Stack (Technologies) — Index
 
-> Правила и паттерны по технологиям.
+> **Role:** Tech Stack Rules
+> **Objective:** Define specific rules and patterns for each technology.
+> **Context:** Read when writing code in a specific language or framework.
 
 ---
 

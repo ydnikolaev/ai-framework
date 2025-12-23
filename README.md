@@ -44,57 +44,36 @@ ai-framework/
 ├── setup.sh                 # Скрипт установки
 │
 ├── core/                    # 🔒 READ-ONLY (универсальные правила)
-│   ├── _INDEX.md           # Карта для AI — "что где искать"
+│   ├── _INDEX_CORE_FRAMEWORK.md # Карта для AI — "что где искать"
+│   │
+│   ├── agents/             # 🆕 AI Personas (Architect, Developer, QA)
+│   ├── workflows/          # 🆕 SOPs (Standard Operating Procedures)
 │   │
 │   ├── architecture/       # Архитектура
-│   │   ├── backend-layers.md
-│   │   ├── frontend-patterns.md
-│   │   └── data-flow.md
-│   │
 │   ├── stack/              # Правила по технологиям
-│   │   ├── golang.md
-│   │   ├── nuxt-vue.md
-│   │   ├── konsta-ui.md
-│   │   ├── telegram.md
-│   │   ├── database.md
-│   │   └── lottie.md       # 🆕 Анимации
-│   │
 │   ├── quality/            # Аудиты и качество
-│   │   ├── testing.md
-│   │   ├── linting.md
-│   │   ├── performance.md
-│   │   ├── security.md
-│   │   └── seo.md
-│   │
 │   ├── operations/         # DevOps
-│   │   ├── deployment.md
-│   │   ├── environments.md
-│   │   ├── docker.md
-│   │   └── ci-cd.md
+│   ├── dx/                 # Developer Experience
+│   ├── reference/          # Справочники
 │   │
-│   ├── dx/                 # 🆕 Developer Experience
-│   │   ├── development-rules.md
-│   │   ├── commands-reference.md
-│   │   ├── service-restart.md
-│   │   └── iterm-automation.md
-│   │
-│   └── reference/          # Справочники
-│       ├── troubleshooting.md
-│       ├── documentation-guide.md
-│       └── glossary.md
+│   └── meta/               # 🆕 Rules for Framework itself
 │
 ├── docs/                    # 📚 FRAMEWORK DOCS (обновляемые)
 │   ├── README.md           # Как добавить новый фреймворк
-│   ├── ADDING_FRAMEWORK.md # Гайд по расширению
-│   ├── nuxt/               # Nuxt 4
-│   ├── konsta-ui/          # Konsta UI v5
-│   ├── telegram-webapp/    # Telegram Mini Apps
-│   ├── lottie/             # Lottie animations
-│   └── lucide/             # Lucide icons
+│   └── [frameworks...]     # (Vue, Nuxt, Telegram, etc.)
 │
 ├── project/                 # 📝 EDITABLE (контекст проекта)
-│   ├── CONFIG.yaml         # 🆕 Настройки стека
+│   ├── CONFIG.yaml         # Настройки стека
 │   ├── CONTEXT.md          # Главный файл для AI
+│   │
+│   ├── memory/             # 🆕 Active State (Scratchpad, Sprint)
+│   ├── knowledge/          # 🆕 Static Knowledge (Business Rules)
+│   ├── status/             # 🆕 Roadmap & Reports
+│   │
+│   ├── features/           # Спецификации фич
+│   ├── seeds/              # Сиды и тестовые данные
+│   ├── archive/            # Устаревшие доки
+│   │
 │   ├── BACKLOG.md          # Фичи и идеи
 │   ├── DECISIONS.md        # Архитектурные решения
 │   ├── PROMPTS.md          # Кастомные промпты
@@ -122,7 +101,7 @@ ai-framework/
 
 **Первым делом читай:**
 ```
-ai-framework/core/_INDEX.md
+ai-framework/core/_INDEX_CORE_FRAMEWORK.md
 ```
 
 Этот файл содержит карту всех документов и инструкцию "когда какой файл открывать".

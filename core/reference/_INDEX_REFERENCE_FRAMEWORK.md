@@ -1,6 +1,8 @@
 # 📚 Reference — Index
 
-> Справочники, FAQ, документация.
+> **Role:** Knowledge Base
+> **Objective:** Provide quick access to glossary, troubleshooting, and rules.
+> **Context:** Use when stuck or checking compliance with rules.
 
 ---
 
@@ -12,6 +14,8 @@
 | [troubleshooting.md](troubleshooting.md) | FAQ и решения частых проблем |
 | [changelog-management.md](changelog-management.md) | Правила ведения changelog |
 | [glossary.md](glossary.md) | Термины и аббревиатуры |
+| [markdown-rules.md](markdown-rules.md) | **ОБЯЗАТЕЛЬНО:** Правила оформления .md |
+| [mermaid-rules.md](mermaid-rules.md) | **ОБЯЗАТЕЛЬНО:** Правила для диаграмм (Quote text!) |
 
 ---
 

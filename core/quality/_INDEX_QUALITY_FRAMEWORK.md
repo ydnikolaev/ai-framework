@@ -1,6 +1,8 @@
 # ✅ Quality — Index
 
-> Тестирование, линтинг, безопасность, производительность.
+> **Role:** Quality Assurance Guide
+> **Objective:** Maintain high code quality and security standards.
+> **Context:** Read before finalizing tasks or during audits.
 
 ---
 

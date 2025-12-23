@@ -1,5 +1,9 @@
 # 📦 Framework Documentation
 
+> **Role:** Frameworks Documentation Index
+> **Objective:** Index of all external frameworks and tools used.
+> **Context:** Read when looking for API references or upgrades.
+
 > Локальная документация по фреймворкам и инструментам.
 > Обновляется вручную или через AI при смене версии.
 
@@ -18,13 +22,13 @@
 
 ```text
 docs/
-├── README.md          # ← Ты здесь
-├── nuxt/              # Nuxt 4 + Vue 3
-├── konsta-ui/         # Konsta UI v5
-├── telegram-webapp/   # Telegram Mini Apps SDK
-├── lottie/            # Lottie + Bodymovin
-├── lucide/            # Lucide Icons
-└── [any-framework]/   # Добавляй по мере необходимости
+├── _INDEX_DOCS_FRAMEWORK.md # ← Ты здесь
+├── nuxt/                    # Nuxt 4 + Vue 3
+├── konsta-ui/               # Konsta UI v5
+├── telegram-webapp/         # Telegram Mini Apps SDK
+├── lottie/                  # Lottie + Bodymovin
+├── lucide/                  # Lucide Icons
+└── [any-framework]/         # Добавляй по мере необходимости
 ```
 
 ---

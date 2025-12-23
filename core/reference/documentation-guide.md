@@ -28,6 +28,7 @@
 | **Написал новый промпт** | `project/PROMPTS.md` — добаь промпт |
 | **Нашёл паттерн/антипаттерн** | `core/stack/[tech].md` — добавь в DO's/DON'Ts |
 | **Настроил окружение** | `core/operations/` — обнови гайд |
+| **Услышал новый термин** | `project/knowledge/user-glossary.md` — добавь mapping (User <-> Tech) |
 
 ### 🟡 Рекомендуется обновить
 
@@ -45,18 +46,19 @@
 
 ```text
 ai-framework/
-├── core/                    # Универсальные правила (НЕ зависят от проекта)
-│   ├── stack/[tech].md     # Правила по технологии (DO's, DON'Ts)
-│   ├── quality/            # Аудиты (performance, security, seo)
-│   └── reference/          # Troubleshooting, cheat-sheet
+├── core/                    # Универсальные правила
+│   ├── agents/             # Personas (Who am I?)
+│   ├── workflows/          # SOPs (How to do it?)
+│   ├── stack/              # Tech Rules
+│   └── _INDEX_CORE_FRAMEWORK.md
 │
-├── docs/                    # API документация (версионируется)
-│   └── [framework]/        # Конкретный фреймворк
+├── docs/                    # API справка
 │
-└── project/                 # Специфика ЭТОГО проекта
-    ├── DECISIONS.md        # Почему так сделали
-    ├── PROMPTS.md          # Кастомные промпты
-    └── CHANGELOG.md        # История изменений
+└── project/                 # Контекст проекта
+    ├── memory/             # Active Context (scratchpad)
+    ├── knowledge/          # Static Context (glossary, rules)
+    ├── status/             # Roadmap & Reports
+    └── features/           # Specs
 ```
 
 ### Правило выбора файла
@@ -171,28 +173,38 @@ ai-framework/
 
 ---
 
+## 🎨 Стандарты оформления
+
+**ВСЕГДА** следуй правилам оформления, описанным в `core/reference/`:
+
+1.  **Markdown**: [markdown-rules.md](markdown-rules.md) — заголовки, списки, алерты.
+2.  **Mermaid**: [mermaid-rules.md](mermaid-rules.md) — **КРИТИЧНО:** всегда используй кавычки для кириллицы/пробелов и `graph TD`.
+
+---
+
 ## 📝 Именование файлов
 
 ### Core docs
 ```
-core/stack/[technology].md     # Пример: golang.md, nuxt-vue.md
-core/quality/[audit-type].md   # Пример: performance.md, security.md
-core/reference/[topic].md      # Пример: troubleshooting.md, cheat-sheet.md
+core/agents/[role].md          # Пример: architect.md
+core/workflows/[sop].md        # Пример: feature-implementation-sop.md
+core/stack/[technology].md     # Пример: golang.md
+core/_INDEX_CORE_FRAMEWORK.md  # Main Index
 ```
 
 ### Framework docs
 ```
-docs/[framework-name]/         # kebab-case, как в npm
-docs/[framework-name]/README.md
-docs/[framework-name]/api.md   # Опционально
-docs/[framework-name]/examples.md # Опционально
+docs/[framework]/_INDEX_DOCS_FRAMEWORK.md  # Main Index for docs
+docs/[framework]/README.md                 # Framework specific root
 ```
 
 ### Project docs
 ```
-project/CONTEXT.md             # UPPERCASE
-project/BACKLOG.md
-project/CONFIG.yaml
+project/_INDEX_PROJECT.md              # (If applicable)
+project/features/_INDEX_FEATURES_PROJECT.md
+project/features/[feature]/_INDEX_FEATURES_PROJECT.md
+project/knowledge/user-glossary.md
+project/memory/scratchpad.md
 ```
 
 ---

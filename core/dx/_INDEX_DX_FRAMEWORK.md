@@ -1,6 +1,8 @@
 # 🛠️ DX (Developer Experience) — Index
 
-> Всё про автоматизацию локальной разработки.
+> **Role:** Developer Experience Guide
+> **Objective:** Streamline local development and automation.
+> **Context:** Read when setting up environment or adding build commands.
 
 ---
 

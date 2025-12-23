@@ -13,7 +13,7 @@
 
 ### Б. Service Layer (`internal/service`)
 - **Задача:** Бизнес-логика приложения. "Мясо" проекта.
-- **Что содержит:** Методы (`CreateMovie`, `RateUser`), проверки бизнес-правил ("А можно ли пользователю добавить этот фильм?"), вызовы внешних API (TMDB, AI), транзакции.
+- **Что содержит:** Методы (`CreateEntity`, `ProcessAction`), проверки бизнес-правил, вызовы внешних API (LLM, 3rd Party), транзакции.
 - **Правило:** Сервисы ничего не знают про HTTP или Telegram. Они работают с Go-структурами.
 
 ### В. Repository Layer (`internal/repository`)
@@ -25,10 +25,10 @@
 
 ## 2. ПОТОК ДАННЫХ (DATA FLOW)
 
-1. **Request** (HTTP `POST /movies`) →
+1. **Request** (HTTP `POST /items`) →
 2. **Handler** (Распарсил JSON в DTO, достал `userID` из контекста) →
-3. **Service** (Проверил лимиты, сходил в TMDB API, обогатил данные) →
-4. **Repository** (Сделал `INSERT INTO movies`) →
+3. **Service** (Проверил лимиты, сходил в External API, обогатил данные) →
+4. **Repository** (Сделал `INSERT INTO items`) →
 5. **Database**
 
 ---
@@ -44,11 +44,10 @@
     /api          # HTTP Handlers & Routes
     /bot          # Telegram Handlers & Logic
     /config       # Загрузка env
-    /models       # Доменные структуры (User, Movie)
+    /models       # Доменные структуры (User, Item)
     /repository   # SQL запросы
-    /service      # Бизнес-логика (обычно объединяется с ботом или апи, 
-                   # но в сложных проектах выделяется)
-    /clients      # Внешние клиенты (TMDB, OpenAI)
+    /service      # Бизнес-логика
+    /clients      # Внешние клиенты (OpenAI, Stripe)
 ```
 
 ## 4. ПРАВИЛА ВЗАИМОДЕЙСТВИЯ
@@ -65,13 +64,11 @@
 ### Single Source of Truth
 **Rule:** Never duplicate data fetching logic (params construction, filtering) across multiple components.
 
-*   ❌ **Don't:** Manually construct API params in `index.vue` AND `SearchOverlay.vue`.
+*   ❌ **Don't:** Manually construct API params in `Page.vue` AND `Modal.vue`.
 *   ✅ **Do:** Use a shared helper (e.g., `resolveFetchParams` in composable) and use it everywhere.
 
-**Why:** To ensure that "Search", "Index", and "Admin" views always show consistent data for the same filter state.
-
 ### Component Parity
-If `Component A` and `Component B` display the same data type (e.g. Movies list), they MUST share:
+If `Component A` and `Component B` display the same data type (e.g. Items list), they MUST share:
 1.  The same Fetch Logic (Composable).
-2.  The same Filter Logic (`useMovieFilters`).
-3.  The same UI Cards (`MovieCard`).
+2.  The same Filter Logic (`useFilters`).
+3.  The same UI Cards (`ItemCard`).

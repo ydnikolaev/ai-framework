@@ -1,6 +1,8 @@
 # ⚙️ Operations (DevOps) — Index
 
-> CI/CD, деплой, Docker, Git workflow.
+> **Role:** DevOps Guide
+> **Objective:** Manage deployment, CI/CD, and infrastructure.
+> **Context:** Read before deploying or modifying infrastructure configs.
 
 ---
 
@@ -9,6 +11,7 @@
 | Файл | Назначение |
 |------|------------|
 | [git-flow.md](git-flow.md) | **Git Flow** — ветки, коммиты, правила для AI |
+| [ai-documentation-generation.md](ai-documentation-generation.md) | **SOP:** Правила генерации документации для AI |
 | [deployment.md](deployment.md) | Гайд по деплою на прод |
 | [docker.md](docker.md) | Docker, docker-compose |
 | [environments.md](environments.md) | Dev/Staging/Prod окружения |

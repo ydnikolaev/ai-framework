@@ -96,7 +96,7 @@ another-command: ## Ещё одна команда
 ```makefile
 # .make/project.mk
 
-.PHONY: seed-movies seed-clusters db-stats
+.PHONY: seed-movies seed-clusters db-stats enrich-movies
 
 seed-movies: ## Seed 500 movies from cluster JSON files
 	$(call log_header,🎬 Seeding Movies)
@@ -106,6 +106,12 @@ seed-movies: ## Seed 500 movies from cluster JSON files
 db-stats: ## Show database statistics
 	$(call log_header,📊 Database Statistics)
 	@cd backend && go run ./cmd/dbstats/main.go
+
+enrich-movies: ## Enrich movies with full data (director, actors, studio)
+	$(call log_header,🔧 Enriching Movies)
+	$(call log_info,Fetching full data from Kinopoisk API...)
+	@cd backend && go run ./cmd/enrichmovies/main.go
+	$(call log_success,Enrichment complete!)
 ```
 
 ### FinanceApp (финансовый трекер)

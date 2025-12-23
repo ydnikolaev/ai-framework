@@ -49,6 +49,37 @@ copy_if_not_exists "$SCRIPT_DIR/templates/project/DECISIONS.md.template" "$PROJE
 copy_if_not_exists "$SCRIPT_DIR/templates/project/PROMPTS.md.template" "$PROJECT_ROOT/project/PROMPTS.md"
 copy_if_not_exists "$SCRIPT_DIR/templates/project/CHANGELOG.md.template" "$PROJECT_ROOT/project/CHANGELOG.md"
 copy_if_not_exists "$SCRIPT_DIR/templates/project/NOTES.md.template" "$PROJECT_ROOT/project/NOTES.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/ARCHITECTURE.md.template" "$PROJECT_ROOT/project/ARCHITECTURE.md"
+
+# 1.1 Create Subdirectories
+mkdir -p "$PROJECT_ROOT/project/features"
+mkdir -p "$PROJECT_ROOT/project/seeds"
+mkdir -p "$PROJECT_ROOT/project/archive"
+
+copy_if_not_exists "$SCRIPT_DIR/templates/project/features/_INDEX_FEATURES_PROJECT.md.template" "$PROJECT_ROOT/project/features/_INDEX_FEATURES_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/seeds/_INDEX_SEEDS_PROJECT.md.template" "$PROJECT_ROOT/project/seeds/_INDEX_SEEDS_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/archive/_INDEX_ARCHIVE_PROJECT.md.template" "$PROJECT_ROOT/project/archive/_INDEX_ARCHIVE_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/testing/_INDEX_TESTING_PROJECT.md.template" "$PROJECT_ROOT/project/testing/_INDEX_TESTING_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/assets/_INDEX_ASSETS_PROJECT.md.template" "$PROJECT_ROOT/project/assets/_INDEX_ASSETS_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/audits/_INDEX_AUDITS_PROJECT.md.template" "$PROJECT_ROOT/project/audits/_INDEX_AUDITS_PROJECT.md"
+
+# 1.2 Create v2.0 Context Directories (Process & Memory)
+mkdir -p "$PROJECT_ROOT/project/memory"
+mkdir -p "$PROJECT_ROOT/project/knowledge"
+mkdir -p "$PROJECT_ROOT/project/status/reports"
+
+# Memory
+copy_if_not_exists "$SCRIPT_DIR/templates/project/memory/scratchpad.md" "$PROJECT_ROOT/project/memory/scratchpad.md"
+
+# Knowledge
+copy_if_not_exists "$SCRIPT_DIR/templates/project/knowledge/_INDEX_KNOWLEDGE_PROJECT.md" "$PROJECT_ROOT/project/knowledge/_INDEX_KNOWLEDGE_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/knowledge/business-rules.md" "$PROJECT_ROOT/project/knowledge/business-rules.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/knowledge/user-glossary.md" "$PROJECT_ROOT/project/knowledge/user-glossary.md"
+
+# Status
+copy_if_not_exists "$SCRIPT_DIR/templates/project/status/_INDEX_STATUS_PROJECT.md" "$PROJECT_ROOT/project/status/_INDEX_STATUS_PROJECT.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/status/roadmap.md" "$PROJECT_ROOT/project/status/roadmap.md"
+copy_if_not_exists "$SCRIPT_DIR/templates/project/status/reports/_INDEX_REPORTS_PROJECT.md" "$PROJECT_ROOT/project/status/reports/_INDEX_REPORTS_PROJECT.md"
 
 echo ""
 
