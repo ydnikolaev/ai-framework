@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2025-12-23
+
+### Changed
+- **Mermaid Rules**: Updated `mermaid-rules.md` to promote "High-Level DX" (Shapes, Icons, Chaining). Deprecated "Compatibility Mode".
+- **Troubleshooting**: Added guide for fixing Mermaid rendering issues ("No diagram type detected").
+- **Documentation Guide**: Clarified when to update project docs.
+
 ## [1.0.0] - 2025-12-23
 
 ### Added
