@@ -3,6 +3,8 @@
 > Универсальный фреймворк для разработки Telegram Mini Apps на стеке **Go + Nuxt**.
 > Оптимизирован для работы с AI-ассистентами (Claude, Gemini, GPT).
 
+> **🤖 AI-AGENT:** Start navigation here → [`core/_INDEX_CORE_FRAMEWORK.md`](core/_INDEX_CORE_FRAMEWORK.md)
+
 ---
 
 ## ⚡ Quick Start
