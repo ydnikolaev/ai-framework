@@ -10,6 +10,7 @@
 |------|------------|
 | [development-rules.md](development-rules.md) | **Правила** при добавлении/изменении команд |
 | [commands-reference.md](commands-reference.md) | Справочник make-команд (шпаргалка) |
+| [modular-makefile.md](modular-makefile.md) | **Модульная архитектура** — project-specific команды |
 | [service-restart.md](service-restart.md) | Когда перезапускать сервисы |
 | [iterm-automation.md](iterm-automation.md) | iTerm2 скрипты и dev-окружение |
 

@@ -7,6 +7,11 @@
 
 include .make/dx.mk
 
+# Project-specific commands (optional)
+# Create .make/project.mk for your custom commands
+# See: ai-framework/core/dx/modular-makefile.md
+-include .make/project.mk
+
 # ═══════════════════════════════════════════════════════════════
 # 📦 Load Environment
 # ═══════════════════════════════════════════════════════════════
