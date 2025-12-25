@@ -2,7 +2,7 @@
 
 > **Role:** Meta-Framework Guide
 > **Objective:** Rules for modifying the framework itself.
-> **Context:** Read ONLY if you are changing files in `ai-framework/core/` or `setup.sh`.
+> **Context:** Read ONLY if you are changing files in `ai-framework/core/`.
 
 ---
 

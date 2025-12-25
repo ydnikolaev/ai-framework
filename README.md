@@ -1,7 +1,7 @@
 # 🧠 AI-First Framework
 
-> Универсальный фреймворк для разработки Telegram Mini Apps на стеке **Go + Nuxt**.
-> Оптимизирован для работы с AI-ассистентами (Claude, Gemini, GPT).
+> **Knowledge Base** & **Architecture Patterns** for AI-driven development.
+> Designed to be used with **Sky CLI**.
 
 > **🤖 AI-AGENT:** Start navigation here → [`core/_INDEX_CORE_FRAMEWORK.md`](core/_INDEX_CORE_FRAMEWORK.md)
 
@@ -9,148 +9,76 @@
 
 ## ⚡ Quick Start
 
-### Новый проект
+This repository contains the **intellectual core** (rules, architecture, memories).
+To create a new project and set up the environment, use **Sky CLI**:
 
 ```bash
-# 1. Создай папку проекта
-mkdir my-bot && cd my-bot
-git init
+# 1. Install Sky CLI (if not installed)
+make install
 
-# 2. Добавь фреймворк как submodule
-git submodule add https://github.com/YOUR_USER/ai-framework.git ai-framework
-
-# 3. Запусти установку
-cd ai-framework && ./setup.sh && cd ..
-
-# 4. Готово! Создано:
-#    - docker-compose.yml / docker-compose.prod.yml
-#    - Makefile, .env.example
-#    - project/CONFIG.yaml, project/CONTEXT.md
+# 2. Create a new project
+sky init
 ```
 
-> 📋 **Полное руководство:** [setup/README.md](setup/README.md) — от SSH ключей до деплоя
-
-### Существующий проект
-
-```bash
-git submodule add https://github.com/YOUR_USER/ai-framework.git ai-framework
-cd ai-framework && ./setup.sh
-```
+Sky CLI will automatically:
+- Scaffolding the project structure
+- Generate Makefile & Environments
+- Include this **AI Framework** (as a submodule) for architecture reference
 
 ---
 
-## 📂 Структура
+## 📂 Structure
 
 ```text
 ai-framework/
 │
-├── README.md                # ← Ты здесь
-├── setup.sh                 # Entry point для установки
+├── README.md                # ← You are here
 │
-├── setup/                   # 🚀 SETUP & GUIDES
-│   ├── README.md           # Полное руководство (от 0 до deploy)
-│   ├── CHECKLIST.md        # Чеклист для нового проекта
-│   ├── setup.sh            # Unified setup (auto gum detection)
-│   ├── install.sh          # Базовая установка
-│   └── install-interactive.sh # Интерактивная установка (gum)
+├── core/                    # 🔒 FRAMEWORK RULES (The "Brain")
+│   ├── _INDEX_CORE_FRAMEWORK.md # 🤖 AI Map
+│   ├── agents/             # AI Agents Personas
+│   ├── workflows/          # Standard Operating Procedures
+│   ├── architecture/       # Architectural Patterns (Clean Arch)
+│   ├── design/             # Design System Principles
+│   ├── stack/              # Technology Stack Rules
+│   ├── quality/            # QA & Audits
+│   ├── operations/         # Git Flow & Documentation Rules
+│   ├── dx/                 # Developer Experience Standards
+│   ├── meta/               # Framework Principles
+│   └── reference/          # Glossaries
 │
-├── core/                    # 🔒 FRAMEWORK RULES (read-only)
-│   ├── _INDEX_CORE_FRAMEWORK.md # 🤖 Карта для AI
-│   ├── agents/             # AI Personas
-│   ├── workflows/          # SOPs
-│   ├── architecture/       # Архитектура
-│   ├── design/             # Design System
-│   ├── stack/              # Правила по технологиям
-│   ├── quality/            # Аудиты и качество
-│   ├── operations/         # DevOps
-│   ├── dx/                 # Developer Experience
-│   └── reference/          # Справочники
-│
-├── docs/                    # 📚 FRAMEWORK DOCS
-│   └── [frameworks...]     # (Vue, Nuxt, Telegram, etc.)
-│
-├── infrastructure/          # 🏗️ SERVER-LEVEL
-│   ├── traefik/            # Shared Traefik setup
-│   ├── server-setup/       # Cloud-init, VPS настройка
-│   └── multi-project/      # Multi-project deployment
-│
-├── templates/               # 📦 PROJECT TEMPLATES
-│   └── _INDEX_TEMPLATES_FRAMEWORK.md
-│
-└── project/ (создаётся)     # 📝 PROJECT CONTEXT (editable)
+└── docs/                    # 📚 TECHNOLOGIES (External Docs)
+    └── [frameworks...]     # (Vue, Nuxt, Telegram, etc.)
 ```
+
+> **Note:** Infrastructure, Deployment scripts, and DevOps tooling have moved to **Sky CLI**.
 
 ---
 
-## 🎯 Как пользоваться
+## 🎯 Usage
 
-### Для человека
+### For Humans
+Use this repository as a **Reference Manual**:
+- **Architecture:** How to structure code? (`core/architecture/`)
+- **Git Flow:** How to manage branches? (`core/operations/git-flow.md`)
+- **Prompts:** How to generate docs? (`core/operations/ai-documentation-generation.md`)
 
-| Хочу... | Открой файл |
-|---------|-------------|
-| Добавить идею/фичу | `project/BACKLOG.md` |
-| Написать кастомный промпт | `project/PROMPTS.md` |
-| Зафиксировать решение | `project/DECISIONS.md` |
-| Понять архитектуру | `core/architecture/` |
-| Проверить производительность | `core/quality/performance.md` |
-| Задеплоить | `core/operations/deployment.md` |
-
-### Для AI-модели
-
-**Первым делом читай:**
-```
-ai-framework/core/_INDEX_CORE_FRAMEWORK.md
-```
-
-Этот файл содержит карту всех документов и инструкцию "когда какой файл открывать".
-
-**Контекст проекта:**
-```
-ai-framework/project/CONTEXT.md
-```
+### For AI Models
+Always read `core/_INDEX_CORE_FRAMEWORK.md` first to understand the rules of the game before generating code.
 
 ---
 
-## 🔄 Обновление фреймворка
+## 🔄 Updates
+
+To update the knowledge base in your project:
 
 ```bash
-# Обновить до последней версии
 cd ai-framework
 git pull origin main
-cd ..
-git add ai-framework
-git commit -m "chore: update ai-framework"
-```
-
-Файлы в `project/` **не затрагиваются** — они твои.
-
----
-
-## 📋 Makefile команды
-
-После `setup.sh` в корне проекта появится `Makefile`:
-
-```bash
-make dev          # Запуск dev-окружения
-make api          # Запуск только backend
-make frontend     # Запуск только frontend
-make test         # Все тесты
-make lint         # Линтинг
-make deploy       # Деплой на прод
-make logs         # Логи продакшена
 ```
 
 ---
 
-## 🔑 Принципы
-
-1. **`core/` = Read-Only** — никогда не редактируй в проекте, обновляй через git pull
-2. **`project/` = Твоё** — здесь живёт контекст конкретного проекта
-3. **AI-First** — структура оптимизирована для понимания LLM-моделями
-4. **Human-Friendly** — понятная навигация для разработчика
-
----
-
-## 📝 Лицензия
+## 📝 License
 
 Private / Internal Use.
