@@ -61,6 +61,9 @@ dev: dev-stop ## Start dev environment (Docker Compose)
 	@printf "$(DIM)   Frontend: http://localhost:3000$(RESET)\n"
 	@printf "$(DIM)   API:      http://localhost:8080$(RESET)\n"
 
+dev-full: dev-stop ## Start dev environment + prod logs (iTerm2)
+	@./scripts/dev-full.py
+
 api: ## Start backend API
 	$(call log_header,⚡ Starting API Server)
 	$(call log_info,API starting on :8080...)
@@ -272,6 +275,4 @@ clean: ## Clean temporary files
 # ═══════════════════════════════════════════════════════════════
 
 help: ## Show this help
-	@printf "\n$(BOLD)$(MAGENTA)🤖 Project Name$(RESET) $(DIM)— Available Commands$(RESET)\n\n"
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-	@printf "\n$(DIM)Usage: make <command>$(RESET)\n\n"
+	@./scripts/make-help.py
