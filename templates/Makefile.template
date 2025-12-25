@@ -208,6 +208,30 @@ tunnel: ## Open SSH tunnel for remote testing
 	@ssh -R $(TUNNEL_PORT):localhost:3000 $(SSH_USER)@$(SSH_HOST) -N
 
 # ═══════════════════════════════════════════════════════════════
+# 🔗 Telegram Webhook
+# ═══════════════════════════════════════════════════════════════
+
+set-webhook-dev: ## Set dev bot webhook
+	$(call log_header,🔗 Setting Dev Webhook)
+	@./scripts/set-webhook.sh dev
+
+set-webhook-prod: ## Set production bot webhook
+	$(call log_header,🔗 Setting Prod Webhook)
+	@./scripts/set-webhook.sh prod
+
+add-dev-routes: ## Add dev tunnel routes to Traefik on server
+	$(call log_header,🔧 Adding Dev Routes to Traefik)
+	@./scripts/add-dev-routes.sh
+
+setup-ssh: ## Setup SSH keys and config for this project
+	$(call log_header,🔐 Setting up SSH)
+	@./scripts/setup-ssh.sh
+
+setup-repo: ## Create GitHub repo and push initial commit
+	$(call log_header,🔗 Setting up GitHub repository)
+	@./scripts/setup-repo.sh
+
+# ═══════════════════════════════════════════════════════════════
 # 🚀 Production
 # ═══════════════════════════════════════════════════════════════
 

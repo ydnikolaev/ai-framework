@@ -24,8 +24,9 @@ if os.path.exists(env_path):
     load_dotenv(env_path)
 
 # Server config from .env
-SERVER = os.getenv('PROD_SERVER', 'deploy@waydownwego.ru')
-PROD_DIR = os.getenv('PROD_DIR', 'kinobot')
+SERVER = os.getenv('PROD_SERVER', 'deploy@localhost')
+PROD_DIR = os.getenv('PROD_DIR', 'mybot')
+PROJECT_NAME = os.getenv('PROJECT_NAME', 'mybot')
 
 async def main(connection):
     app = await iterm2.async_get_app(connection)
@@ -37,16 +38,16 @@ async def main(connection):
     # Row 1: Prod Bot | Prod API
     prod_bot = tab.current_session
     await prod_bot.async_set_name("🤖 Prod Bot")
-    await prod_bot.async_send_text(f"ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_bot'\n")
+    await prod_bot.async_send_text(f"ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh {PROJECT_NAME}_bot'\n")
     
     prod_api = await prod_bot.async_split_pane(vertical=True)
     await prod_api.async_set_name("⚡ Prod API")
-    await prod_api.async_send_text(f"ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_api'\n")
+    await prod_api.async_send_text(f"ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh {PROJECT_NAME}_api'\n")
     
     # Row 2: Prod DB | Prod Status
     prod_db = await prod_bot.async_split_pane(vertical=False)
     await prod_db.async_set_name("📊 Prod DB")
-    await prod_db.async_send_text(f"ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_db'\n")
+    await prod_db.async_send_text(f"ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh {PROJECT_NAME}_db'\n")
     
     prod_status = await prod_api.async_split_pane(vertical=False)
     await prod_status.async_set_name("📋 Prod Status")

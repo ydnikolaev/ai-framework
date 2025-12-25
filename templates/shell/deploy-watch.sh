@@ -13,8 +13,8 @@ if [ -f .env ]; then
 fi
 
 # Config from .env (with defaults)
-SERVER="${PROD_SERVER:-deploy@waydownwego.ru}"
-REMOTE_DIR="${PROD_DIR:-kinobot}"
+SERVER="${PROD_SERVER:-deploy@localhost}"
+REMOTE_DIR="${PROD_DIR:-${PROJECT_NAME:-mybot}}"
 DEPLOY_FILE="${REMOTE_DIR}/deploys/last"
 POLL_INTERVAL=5
 LAST_DEPLOY_FILE="/tmp/deploy-watch-last-$(echo $SERVER | tr '@:' '_')"

@@ -31,8 +31,9 @@ if os.path.exists(env_path):
     load_dotenv(env_path)
 
 # Server config from .env
-SERVER = os.getenv('PROD_SERVER', 'deploy@waydownwego.ru')
-PROD_DIR = os.getenv('PROD_DIR', 'kinobot')
+SERVER = os.getenv('PROD_SERVER', 'deploy@localhost')
+PROD_DIR = os.getenv('PROD_DIR', 'mybot')
+PROJECT_NAME = os.getenv('PROJECT_NAME', 'mybot')
 
 # Commands for each session by POSITION
 # Tab 1: Local Dev (7 sessions)
@@ -48,9 +49,9 @@ TAB1_COMMANDS = [
 
 # Tab 2: Prod Monitoring (4 sessions)
 TAB2_COMMANDS = [
-    ("🤖 Prod Bot", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_bot'"),
-    ("📊 Prod DB", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_db'"),
-    ("⚡ Prod API", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh kinobot_api'"),
+    ("🤖 Prod Bot", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh {PROJECT_NAME}_bot'"),
+    ("📊 Prod DB", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh {PROJECT_NAME}_db'"),
+    ("⚡ Prod API", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-logs.sh {PROJECT_NAME}_api'"),
     ("📋 Prod Status", f"cd '{PROJECT_DIR}' && ssh {SERVER} 'cd {PROD_DIR} && ./scripts/dx-prod-status.sh'"),
 ]
 

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2025-12-23
+
+### Added
+- **DX Upgrade v2**:
+  - **Auto-Cleanup**: `dev-cleanup.sh` kills zombie processes (bot/api) on restart (stops "Conflict: terminated by other getUpdates").
+  - **Pretty Logs**: `dx-log-formatter.py` parses and colorizes Docker Compose logs (Postgres/Redis) with truncation.
+  - **API Tunnel**: Dual tunnel support (31337 Front, 31338 API) integrated into `dev-full.py`.
+  - **Deploy Watch**: Stylish header and simplified notifications.
+
 ## [1.1.0] - 2025-12-23
 
 ### Changed

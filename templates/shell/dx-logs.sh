@@ -4,7 +4,12 @@
 # Usage: ./scripts/dx-logs.sh [container_name] [tail_lines]
 # ═══════════════════════════════════════════════════════════════
 
-CONTAINER="${1:-kinobot_bot}"
+# Load PROJECT_NAME from .env if available
+if [ -f .env ]; then
+    export $(grep -E '^PROJECT_NAME=' .env | xargs 2>/dev/null) || true
+fi
+
+CONTAINER="${1:-${PROJECT_NAME:-mybot}_bot}"
 TAIL="${2:-50}"
 RECONNECT_DELAY=5
 
@@ -17,8 +22,8 @@ DIM='\033[2m'
 RESET='\033[0m'
 BOLD='\033[1m'
 
-# Get container short name for display
-DISPLAY_NAME=$(echo "$CONTAINER" | sed 's/kinobot_//')
+# Get container short name for display (strip project prefix)
+DISPLAY_NAME=$(echo "$CONTAINER" | sed "s/${PROJECT_NAME:-mybot}_//")
 
 show_header() {
     clear

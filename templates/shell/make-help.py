@@ -16,6 +16,9 @@ MAGENTA = '\033[35m'
 CYAN = '\033[36m'
 DIM = '\033[2m'
 
+import os
+PROJECT_NAME = os.getenv('PROJECT_NAME', 'Project')
+
 
 def display_width(text):
     """Calculate visual width of string (handles wide chars like Cyrillic)"""
@@ -57,7 +60,7 @@ def main():
     # Column widths (visual)
     widths = [21, 35, 32]
     
-    print(f"\n{BOLD}{MAGENTA}🎬 KinoBot Makefile{RESET}\n")
+    print(f"\n{BOLD}{MAGENTA}🤖 {PROJECT_NAME} Makefile{RESET}\n")
     
     # Header
     print_separator(widths, 'top')

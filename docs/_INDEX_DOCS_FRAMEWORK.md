@@ -59,9 +59,7 @@ framework-name/
 
 ## ➕ Как добавить новый фреймворк
 
-1. Создай папку: `docs/new-framework/`
-2. Добавь `README.md` с обзором
-3. Укажи в `project/CONFIG.yaml`
+См. [core/meta/adding-framework.md](../core/meta/adding-framework.md)
 
 ---
 

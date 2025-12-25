@@ -1,0 +1,34 @@
+# Dynamic configuration for dev tunnels
+# Add project-specific entries here
+
+http:
+  routers:
+    # Example: Dev tunnel for TMA testing
+    # kinobot-dev:
+    #   rule: "Host(`dev.waydownwego.ru`)"
+    #   service: "kinobot-dev-service"
+    #   entryPoints:
+    #     - "websecure"
+    #   tls:
+    #     certResolver: "letsencrypt"
+    
+    # Example: API dev tunnel
+    # kinobot-api-dev:
+    #   rule: "Host(`api-dev.waydownwego.ru`)"
+    #   service: "kinobot-api-dev-service"
+    #   entryPoints:
+    #     - "websecure"
+    #   tls:
+    #     certResolver: "letsencrypt"
+
+  services:
+    # Example services pointing to SSH tunnels
+    # kinobot-dev-service:
+    #   loadBalancer:
+    #     servers:
+    #       - url: "http://host.docker.internal:31337"
+    
+    # kinobot-api-dev-service:
+    #   loadBalancer:
+    #     servers:
+    #       - url: "http://host.docker.internal:31338"

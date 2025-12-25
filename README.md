@@ -19,14 +19,16 @@ git init
 # 2. Добавь фреймворк как submodule
 git submodule add https://github.com/YOUR_USER/ai-framework.git ai-framework
 
-# 3. Разверни шаблоны
+# 3. Запусти установку
 cd ai-framework && ./setup.sh && cd ..
 
-# 4. Готово! Теперь у тебя есть:
-#    - ai-framework/project/CONTEXT.md (главный файл контекста)
-#    - Makefile в корне проекта
-#    - .env.example
+# 4. Готово! Создано:
+#    - docker-compose.yml / docker-compose.prod.yml
+#    - Makefile, .env.example
+#    - project/CONFIG.yaml, project/CONTEXT.md
 ```
+
+> 📋 **Полное руководство:** [setup/README.md](setup/README.md) — от SSH ключей до деплоя
 
 ### Существующий проект
 
@@ -43,45 +45,39 @@ cd ai-framework && ./setup.sh
 ai-framework/
 │
 ├── README.md                # ← Ты здесь
-├── setup.sh                 # Скрипт установки
+├── setup.sh                 # Entry point для установки
 │
-├── core/                    # 🔒 READ-ONLY (универсальные правила)
-│   ├── _INDEX_CORE_FRAMEWORK.md # Карта для AI — "что где искать"
-│   │
-│   ├── agents/             # 🆕 AI Personas (Architect, Developer, QA)
-│   ├── workflows/          # 🆕 SOPs (Standard Operating Procedures)
-│   │
+├── setup/                   # 🚀 SETUP & GUIDES
+│   ├── README.md           # Полное руководство (от 0 до deploy)
+│   ├── CHECKLIST.md        # Чеклист для нового проекта
+│   ├── setup.sh            # Unified setup (auto gum detection)
+│   ├── install.sh          # Базовая установка
+│   └── install-interactive.sh # Интерактивная установка (gum)
+│
+├── core/                    # 🔒 FRAMEWORK RULES (read-only)
+│   ├── _INDEX_CORE_FRAMEWORK.md # 🤖 Карта для AI
+│   ├── agents/             # AI Personas
+│   ├── workflows/          # SOPs
 │   ├── architecture/       # Архитектура
+│   ├── design/             # Design System
 │   ├── stack/              # Правила по технологиям
 │   ├── quality/            # Аудиты и качество
 │   ├── operations/         # DevOps
 │   ├── dx/                 # Developer Experience
-│   ├── reference/          # Справочники
-│   │
-│   └── meta/               # 🆕 Rules for Framework itself
+│   └── reference/          # Справочники
 │
-├── docs/                    # 📚 FRAMEWORK DOCS (обновляемые)
-│   ├── README.md           # Как добавить новый фреймворк
+├── docs/                    # 📚 FRAMEWORK DOCS
 │   └── [frameworks...]     # (Vue, Nuxt, Telegram, etc.)
 │
-├── project/                 # 📝 EDITABLE (контекст проекта)
-│   ├── CONFIG.yaml         # Настройки стека
-│   ├── CONTEXT.md          # Главный файл для AI
-│   │
-│   ├── memory/             # 🆕 Active State (Scratchpad, Sprint)
-│   ├── knowledge/          # 🆕 Static Knowledge (Business Rules)
-│   ├── status/             # 🆕 Roadmap & Reports
-│   │
-│   ├── features/           # Спецификации фич
-│   ├── seeds/              # Сиды и тестовые данные
-│   ├── archive/            # Устаревшие доки
-│   │
-│   ├── BACKLOG.md          # Фичи и идеи
-│   ├── DECISIONS.md        # Архитектурные решения
-│   ├── PROMPTS.md          # Кастомные промпты
-│   └── CHANGELOG.md        # История изменений
+├── infrastructure/          # 🏗️ SERVER-LEVEL
+│   ├── traefik/            # Shared Traefik setup
+│   ├── server-setup/       # Cloud-init, VPS настройка
+│   └── multi-project/      # Multi-project deployment
 │
-└── templates/               # Шаблоны для setup.sh
+├── templates/               # 📦 PROJECT TEMPLATES
+│   └── _INDEX_TEMPLATES_FRAMEWORK.md
+│
+└── project/ (создаётся)     # 📝 PROJECT CONTEXT (editable)
 ```
 
 ---

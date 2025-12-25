@@ -1,0 +1,116 @@
+# Production Docker Compose Template (Shared Traefik)
+# Uses PROJECT_NAME from .env for container naming and routing
+# Requires: docker network create traefik-public
+
+x-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    logging: *logging
+    container_name: ${PROJECT_NAME}_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${PROJECT_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user} -d ${PROJECT_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    logging: *logging
+    container_name: ${PROJECT_NAME}_redis
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  migrator:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    logging: *logging
+    container_name: ${PROJECT_NAME}_migrator
+    command: ["migrate"]
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure:3
+
+  backend-bot:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    logging: *logging
+    container_name: ${PROJECT_NAME}_bot
+    command: ["bot"]
+    env_file: .env
+    volumes:
+      - ./backend/secrets:/app/secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      migrator:
+        condition: service_completed_successfully
+    restart: always
+
+  backend-api:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    logging: *logging
+    container_name: ${PROJECT_NAME}_api
+    command: ["api"]
+    env_file: .env
+    volumes:
+      - ./backend/secrets:/app/secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}-api.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.${PROJECT_NAME}-api.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME}-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${PROJECT_NAME}-api.loadbalancer.server.port=8080"
+    restart: always
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    logging: *logging
+    container_name: ${PROJECT_NAME}_frontend
+    env_file: .env
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}-frontend.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}-frontend.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME}-frontend.tls.certresolver=letsencrypt"
+    restart: always
+
+networks:
+  traefik-public:
+    external: true
+
+volumes:
+  postgres_data:
+  redis_data:

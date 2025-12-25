@@ -13,3 +13,7 @@
 ### Intelligence
 - [ ] **Vector Memory**: Integrate RAG (Retrieval Augmented Generation) for `project/knowledge`.
 - [ ] **Auto-Documentation**: Github Action to auto-update `_INDEX` files based on content.
+
+### Telegram
+- [ ] **Bot Commands Setup**: `make set-commands` — установка /start, /help и др. через Bot API
+- [ ] **Bot Menu Setup**: Автоматическая настройка Menu Button для WebApp

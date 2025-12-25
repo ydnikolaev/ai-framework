@@ -16,6 +16,9 @@ YELLOW = '\033[33m'
 CYAN = '\033[36m'
 DIM = '\033[2m'
 
+import os
+PROJECT_NAME = os.getenv('PROJECT_NAME', 'mybot')
+
 BOX_WIDTH = 56  # Inner width of the box
 
 
@@ -70,7 +73,7 @@ def main():
     print_line()
     print_separator('mid')
     print_line(f"{DIM}PROD:{RESET} {CYAN}{prod_server}:{prod_dir}{RESET}")
-    print_line(f"{DIM}DEV:{RESET}  {YELLOW}localhost:5433/kinobot_dev{RESET}")
+    print_line(f"{DIM}DEV:{RESET}  {YELLOW}localhost:5433/{PROJECT_NAME}_dev{RESET}")
     print_separator('bottom')
     print()
     
